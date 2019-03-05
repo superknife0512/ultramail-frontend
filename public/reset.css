@@ -1,4 +1,10 @@
 
-body {
-    
+nav ul a{
+    padding: 0 1.78rem;
+}
+
+@media only screen and (max-width: 800px) {
+    html{
+        font-size: 10px !important;
+    }
 }
