@@ -12,7 +12,7 @@
                                 exact-active-class="active">
                         <a>
                             <i class="material-icons left">account_box</i> 
-                            Login
+                            Đăng nhập
                         </a>
                     </router-link>
 
@@ -23,14 +23,14 @@
                                     exact-active-class="active">
                         <a>
                             <i class="material-icons left">account_circle</i>
-                            Sign up
+                            Đăng kí 
                         </a>
                     </router-link>
 
                     <li class="side__item">
                         <a class="" href="#">
                             <i class="material-icons left">exit_to_app</i>
-                            Log out
+                            Thoát
                         </a>
                     </li>
                 </ul>
@@ -84,7 +84,7 @@ export default {
         &__navbar{
             background-color: white;
             height: 100vh;
-            width: 21rem;
+            width: 23rem;
             position: absolute;
             top: 0;
             left: 0;
@@ -115,6 +115,7 @@ export default {
                 }
                 display: flex;
                 align-items: center;
+                padding: 0 3rem;
             }
         }
         &__brand{

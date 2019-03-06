@@ -14,18 +14,18 @@
           <router-link tag="li" to="/auth/login" exact exact-active-class="active">
             <a class="nav__link grey-text text-darken-3">
               <i class="material-icons left">account_box</i> 
-            Login</a>
+            Đăng nhập</a>
           </router-link>
 
           <router-link tag="li" to="/auth/signup" exact exact-active-class="active">
             <a class="nav__link cyan-text text-darken-2">
               <i class="material-icons left">account_circle</i>
-            Signup</a>
+            Đăng kí</a>
           </router-link>
 
           <li>
             <a class="nav__link grey-text text-darken-3">
-              Log out
+              Thoát 
             </a>
           </li>
 
