@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from './views/home.vue'
+import error404 from './views/404Error.vue'
 
 import auth from './views/auth/auth.vue'
 import login from './views/auth/login.vue'
 import signup from './views/auth/signup.vue'
+import sucessLog from './views/auth/sucessLog.vue'
 
-import admin from './views/admin/admin.vue'
+import user from './views/user/user.vue'
 
 Vue.use(Router)
 
@@ -39,21 +41,34 @@ export default new Router({
           name: 'Signup',
           component: signup,
         },
+
+        {
+          path: '/auth/sucess',
+          name: 'sucess',
+          component: sucessLog,
+        },
       ]
     },  
     
-    //admin route *************************
+    //user route *************************
     {
-      path: '/admin',
-      name: 'admin',
-      component: admin,
+      path: '/user/:userId',
+      name: 'user',
+      props: true,
+      component: user,
       children:[
         {
           path: '/',
-          name: 'adminBoard',
-          component: () => import(/* webpackChunkName: "admin-group" */ './views/admin/adminBoard.vue'),
+          name: 'userBoard',
+          component: () => import(/* webpackChunkName: "user-group" */ './views/user/userBoard.vue'),
         },
       ]
-    }
+    },
+
+    {
+      path: '*',
+      name: '404',
+      component: error404
+    },
   ]
 })

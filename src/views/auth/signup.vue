@@ -34,19 +34,20 @@
                         <div class="input-field col s12">
                             <label for="name" >Tên của bạn</label>
                             <input  type="text" 
-                                    class="validate">
+                                    class="validate"
+                                    v-model="name">
                         </div>
                         <div class="input-field col s12">
                             <label for="email" >Địa chỉ email</label>
                             <input placeholder="" 
                                     type="email" 
                                     class="validate"  
-                                    :class="!canIUse ? '' : 'invalid'"                                  
+                                    :class="canIUse ? '' : 'invalid'"                                  
                                     v-model.lazy="email">    
 
                            
                             <warning-msg :appear="emailCheck || !isEmail && email.length>0"
-                                           :errorCon="canIUse || isEmail">
+                                           :errorCon="canIUse && isEmail">
                                 {{ emailCheck.length > 0 ? emailCheck : 'Hãy nhập vào email hợp lệ'}}
                             </warning-msg>
                         </div>
@@ -75,7 +76,8 @@
                             </warning-msg>
                         </div>
                         <submit-btn :disableCon="!canIUse || !isSame || !isLength || password.length === 0 || !isEmail "
-                                    :isLoading="isLoading">
+                                    :isLoading="isLoading"
+                                    @onSubmit="submit">
                             Đăng kí
                         </submit-btn>
                     </form>
@@ -93,6 +95,7 @@ export default {
         return {
             email: '',
             password: '',
+            name: '',
             emailCheck: '',
             canIUse: false,
             cfPass: '',
@@ -101,7 +104,27 @@ export default {
     },
     methods:{
         submit(){
-            // something here
+            this.isLoading = true
+            fetch('http://localhost:4000/user/signup',{
+                method: 'POST',
+                body: JSON.stringify({
+                    email: this.email,
+                    password: this.password,
+                    name: this.name,
+                }),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            }).then(resp=>{
+                return resp.json();
+            }).then(resData=>{
+                this.isLoading = false;
+                this.$store.state.signupUserId = resData.userId;
+                localStorage.setItem('signupId', resData.userId);
+                this.$router.push('/auth/sucess');
+            }).catch(err=>{
+                throw err
+            })
         },
         checkEmail(){
             fetch('http://localhost:4000/user/check-mail',{
@@ -203,7 +226,7 @@ export default {
         &__right{
             height: auto;
             background-color: white;           
-            opacity: .9;
+            opacity: .97;
             padding: 2.2rem 4rem !important;
             flex: 5;
             @media only screen and (max-width: 1350px){

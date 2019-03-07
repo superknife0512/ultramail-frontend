@@ -8,7 +8,9 @@
             menu
           </i>
         </a>
-        <a href="/" class="brand-logo cyan-text text-darken-3">Ultra Mail</a>
+        <router-link to="/" tag="a" class="brand-logo cyan-text text-darken-3">
+          Ultra Mail
+        </router-link>
         <ul id="nav-mobile " class=" right hide-on-med-and-down">
 
           <router-link tag="li" to="/auth/login" exact exact-active-class="active">

@@ -50,7 +50,8 @@
                                     v-model="password">
                         </div>
 
-                        <submit-btn :isLoading="isLoading" @click.prevent="onSubmit">
+                        <submit-btn :isLoading="isLoading" 
+                                    @onSubmit="onSubmit">
                             Đăng nhập
                         </submit-btn>
                     </form>
