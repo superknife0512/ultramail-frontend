@@ -1,7 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from './views/home.vue'
+
 import auth from './views/auth/auth.vue'
+import login from './views/auth/login.vue'
+import signup from './views/auth/signup.vue'
+
+import admin from './views/admin/admin.vue'
 
 Vue.use(Router)
 
@@ -26,16 +31,29 @@ export default new Router({
           // route level code-splitting
           // this generates a separate chunk (auth.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
-          component: () => import(/* webpackChunkName: "auth" */ './views/auth/login.vue')
+          component: login,
         },
     
         {
           path: '/auth/signup',
           name: 'Signup',
-          component: () => import(/* webpackChunkName: "auth" */ './views/auth/signup.vue')
+          component: signup,
         },
       ]
     },  
     
+    //admin route *************************
+    {
+      path: '/admin',
+      name: 'admin',
+      component: admin,
+      children:[
+        {
+          path: '/',
+          name: 'adminBoard',
+          component: () => import(/* webpackChunkName: "admin-group" */ './views/admin/adminBoard.vue'),
+        },
+      ]
+    }
   ]
 })

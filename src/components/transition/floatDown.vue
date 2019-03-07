@@ -1,5 +1,5 @@
 <template>
-    <transition name="float-down" :appear="appear" mode="out-in">
+    <transition name="float-down" :appear="appear" :mode="mode">
         <slot></slot>
     </transition>
 </template>
@@ -9,8 +9,9 @@ export default {
         appear:{
             type: Boolean,
         },
-        outIn:{
-            type: Boolean
+        mode:{
+            type: String,
+            default: 'out-in'
         }
     }
 }

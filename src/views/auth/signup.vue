@@ -1,8 +1,8 @@
 <template>
     <div class="container signup">
         <div class="">
-            <div class="row signup__box">
-                <div class="col s12 l6 signup__left">
+            <div class="row signup__box z-depth-4">
+                <div class="signup__left">
                     <div class="signup__welcome">
                         <h4 class="signup__welcome-title deep-purple-text">
                             Chào mừng các bạn đến với Ultra-mail
@@ -21,7 +21,7 @@
                     </div>
                     
                 </div>
-                <div class="col s12 l6 signup__right">
+                <div class="signup__right">
                     <h5 class="signup__title cyan-text text-darken-1">
                         Đăng kí tài khoảng <strong>FREE</strong>
                     </h5>
@@ -41,18 +41,14 @@
                             <input placeholder="" 
                                     type="email" 
                                     class="validate"  
-                                    :class="!canIUse ? '' : 'invalid-color'"                                  
-                                    v-model.lazy="email"
-                                    @change="checkEmail">     
+                                    :class="!canIUse ? '' : 'invalid'"                                  
+                                    v-model.lazy="email">    
 
-                            <p v-if="emailCheck" 
-                                class="text-darken-3 msg"
-                                :class="canIUse ? 'light-green-text' : 'red-text'">
-                                <i class="material-icons">
-                                    {{ canIUse ? 'check_circle' : 'warning' }}
-                                </i>
-                                 {{ emailCheck }}
-                            </p>
+                           
+                            <warning-msg :appear="emailCheck || !isEmail && email.length>0"
+                                           :errorCon="canIUse || isEmail">
+                                {{ emailCheck.length > 0 ? emailCheck : 'Hãy nhập vào email hợp lệ'}}
+                            </warning-msg>
                         </div>
 
                         <div class="input-field col s12">
@@ -62,14 +58,10 @@
                                     v-model="password"
                                     :class="{'invalid': !isLength}">
 
-                            <p v-if="!isLength" 
-                                class="text-darken-3 msg"
-                                :class="isLength ? 'light-green-text' : 'red-text'">
-                                <i class="material-icons">
-                                    {{ isLength ? 'check_circle' : 'warning' }}
-                                </i>
-                                 Mật khẩu cần chứa ít nhất 8 kí tự
-                            </p>
+                            <warning-msg :appear="!isLength"
+                                        :errorCon="isLength">
+                                Mật khẩu phải có ít nhất từ 7 kí tự trở lên
+                            </warning-msg>
                         </div>
 
                         <div class="input-field col s12">
@@ -77,21 +69,15 @@
                             <input v-model="cfPass" 
                                     type="password" 
                                     :class="{'invalid': !isSame}">
-                            <p v-if="!isSame" 
-                                class="text-darken-3 msg"
-                                :class="isSame ? 'light-green-text' : 'red-text'">
-                                <i class="material-icons">
-                                    {{ isSame ? 'check_circle' : 'warning' }}
-                                </i>
-                                 Nhập lại mật khẩu cần phải giống như mật khẩu
-                            </p>
+                            <warning-msg :appear="!isSame"
+                                        :errorCon="isSame">
+                                Mật khẩu khi nhập lại phải giống nhau
+                            </warning-msg>
                         </div>
-
-                        <button class="waves-effect waves-light btn pink signup__btn"
-                                @click.prevent="submit"
-                                :disabled="!canIUse || !isSame || !isLength || password.length === 0 ">
+                        <submit-btn :disableCon="!canIUse || !isSame || !isLength || password.length === 0 || !isEmail "
+                                    :isLoading="isLoading">
                             Đăng kí
-                        </button>
+                        </submit-btn>
                     </form>
                 </div>
             </div>
@@ -100,14 +86,17 @@
 </template>
 
 <script>
+import warningMsg from '../../components/messages/warningMsg'
+import submitBtn from '../../components/button/submitBtn'
 export default {
     data(){
         return {
             email: '',
             password: '',
-            emailCheck: null,
+            emailCheck: '',
             canIUse: false,
             cfPass: '',
+            isLoading: false,
         }
     },
     methods:{
@@ -125,7 +114,7 @@ export default {
                 return res.json()
             }).then(resData=>{
                 this.canIUse = resData.canIUse;
-                this.emailCheck = resData.msg;
+                this.emailCheck =resData.msg;
             }).catch(err=>{
                 throw err;
             })
@@ -145,29 +134,50 @@ export default {
             } else {
                 return true
             }
+        },
+        isEmail(){
+            const emailReg = /^[a-z][a-z0-9_.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/;
+            if(emailReg.test(this.email)){
+                this.checkEmail();
+                return true
+            } else {
+                return false
+            }
         }
+    },
+    components:{
+        warningMsg,
+        submitBtn
     }
 }
 </script>
 
 
 <style lang="scss">
+    $color-primary: #0097a7;
+    $color-background: #ffe3e5;
+    $color-secondary: #5a2669;
     .signup{
         margin: 0 auto;
         &__box{
-            padding: 0 3.4rem;
+            margin: 0 3rem;
+            display: flex;
             @media only screen and (max-width: 600px){
-                padding: 0;
+                margin: 0;
+            };
+            
+            @media only screen and (max-width: 1186px){
+                margin: 0;
             };
         }
         &__left{
-            height: 518px;
-            background-color: #afddf0;
+            background-color: #ffe3e5;
             padding: 0 3rem !important; 
             display: flex; 
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            flex: 4;
             @media only screen and (max-width: 980px){
                 display: none;
             };
@@ -175,7 +185,7 @@ export default {
         &__social{
             .fab{
                 font-size: 2.2rem;
-                color: rgb(2, 104, 145);
+                color: $color-secondary;
                 margin: 0 .4rem;
             }
         }
@@ -187,13 +197,18 @@ export default {
         &__welcome-title{
             margin-top: 0;
             text-transform: uppercase;
-            font-size: 1.9rem
+            font-size: 1.9rem;
+            line-height: 2.3rem;
         }
         &__right{
             height: auto;
             background-color: white;           
             opacity: .9;
-            padding: 1.2rem 3rem !important;
+            padding: 2.2rem 4rem !important;
+            flex: 5;
+            @media only screen and (max-width: 1350px){
+                padding: 1.2rem 2rem !important;
+            };
         }
         &__title{
             font-size: 1.8rem;
@@ -202,7 +217,7 @@ export default {
             margin-top: .8rem;
         }
         &__btn{
-            margin-left: .8rem;
+            margin-left: 0rem;
             margin-top: .2rem;
         }
         .material-icons{
@@ -217,6 +232,7 @@ export default {
         p{
             margin: 0;
         }
+        transform: translateX(-.8rem);
     }
     .msg{
         display: flex;

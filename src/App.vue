@@ -26,4 +26,7 @@ export default {
 
 
 <style lang="scss">
+  $color-primary: #0097a7;
+  $color-background: #ffe3e5;
+  $color-secondary: #5a2669;
 </style>

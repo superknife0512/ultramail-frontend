@@ -38,7 +38,6 @@
 <style lang="scss">
   .nav{
     &__link{
-      font-size: 1.22rem;
     }
   }
   nav{
