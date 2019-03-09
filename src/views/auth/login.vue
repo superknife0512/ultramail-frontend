@@ -40,7 +40,7 @@
                             <input placeholder="" 
                                     type="email" 
                                     class="validate"                                  
-                                    v-model.lazy="email"> 
+                                    v-model.lazy="email" autocomplete="true"> 
                         </div>
 
                         <div class="input-field col s12">
@@ -51,6 +51,7 @@
                         </div>
 
                         <submit-btn :isLoading="isLoading" 
+                                    :disableCon="!email || !password"
                                     @onSubmit="onSubmit">
                             Đăng nhập
                         </submit-btn>
@@ -65,6 +66,13 @@
 <script>
 import submitBtn from '../../components/button/submitBtn'
 export default {
+    created(){
+        const isLogin = this.$store.state.isLogin;
+        if(isLogin){
+            this.$router.push( `/user/${this.$store.state.userId}`);
+        }
+    },
+
     data() {
         return {
             email: '',
@@ -76,10 +84,41 @@ export default {
         submitBtn
     },
     methods:{
+        //type, title, text, footer
         onSubmit(){
-            //so something
+            this.isLoading = true;
+            fetch('http://localhost:4000/user/login', {
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({
+                    email: this.email.toLowerCase(),
+                    password: this.password
+                })
+            }).then(resp=>{
+                return resp.json();
+            }).then(resData=>{
+                this.isLoading = false;
+                const remainingTime = 1*60*60*1000
+                if(resData.status === 'fail'){
+                    this.firePopup('error', 'Đăng nhập thất bại', resData.msg)
+                } else if (resData.status === 'success') {
+                    this.firePopup('success', 'Đăng nhập thành công', 'Chuẩn bị chuyển hướng sau vài giây nữa...');
+                    this.$store.commit('loginHandler', resData);
+                    this.$store.dispatch('autoLogout', remainingTime);
+                    setTimeout(()=>{
+                        this.$router.push(`/user/${resData.userId}`);
+                    }, 1500)
+                }
+            })
+            .catch(err=>{
+                this.firePopup('warning', 'Lỗi đăng nhập', 'Có lỗi không xác định đến từ server')
+                throw err
+            })
         }
-    }
+    },
+    
 }
 </script>
 

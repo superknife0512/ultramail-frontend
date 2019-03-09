@@ -23,9 +23,9 @@
                 </div>
                 <div class="signup__right">
                     <h5 class="signup__title cyan-text text-darken-1">
-                        Đăng kí tài khoảng <strong>FREE</strong>
+                        Đăng kí tài khoản <strong>FREE</strong>
                     </h5>
-                    <h6>Bạn đã có tài khoảng? 
+                    <h6>Bạn đã có tài khoản? 
                         <router-link tag="a" to="/auth/login">
                             Đăng nhập!
                         </router-link>
@@ -41,14 +41,20 @@
                             <label for="email" >Địa chỉ email</label>
                             <input placeholder="" 
                                     type="email" 
-                                    class="validate"  
-                                    :class="canIUse ? '' : 'invalid'"                                  
-                                    v-model.lazy="email">    
+                                    class="validate"                                 
+                                    v-model.lazy="email"
+                                    @change="checkEmail">    
 
-                           
-                            <warning-msg :appear="emailCheck || !isEmail && email.length>0"
-                                           :errorCon="canIUse && isEmail">
-                                {{ emailCheck.length > 0 ? emailCheck : 'Hãy nhập vào email hợp lệ'}}
+                            <!-- check if email is registered -->
+                            <warning-msg :appear="emailCheck && isEmail"
+                                           :errorCon="canIUse ">
+                                {{emailCheck}}
+                            </warning-msg>
+                            
+                            <!-- check if it is an email -->
+                            <warning-msg :appear="!isEmail && email.length>0"
+                                        :errorCon="isEmail">
+                                Hãy nhập vào 1 email hợp lệ
                             </warning-msg>
                         </div>
 
@@ -104,11 +110,13 @@ export default {
     },
     methods:{
         submit(){
-            this.isLoading = true
+            this.isLoading = true;
+            const expireDate = new Date().getTime() + 60*10*1000; // 10 minutes
+            
             fetch('http://localhost:4000/user/signup',{
                 method: 'POST',
                 body: JSON.stringify({
-                    email: this.email,
+                    email: this.email.toLowerCase(),
                     password: this.password,
                     name: this.name,
                 }),
@@ -120,7 +128,9 @@ export default {
             }).then(resData=>{
                 this.isLoading = false;
                 this.$store.state.signupUserId = resData.userId;
+                // save userId and expire time 5 minutes
                 localStorage.setItem('signupId', resData.userId);
+                localStorage.setItem('expiryId', expireDate);
                 this.$router.push('/auth/sucess');
             }).catch(err=>{
                 throw err
@@ -129,7 +139,7 @@ export default {
         checkEmail(){
             fetch('http://localhost:4000/user/check-mail',{
                 method: "POST",
-                body: JSON.stringify({email: this.email}),
+                body: JSON.stringify({email: this.email.toLowerCase()}),
                 headers :{
                     'Content-Type': 'application/json'
                 }
@@ -160,7 +170,7 @@ export default {
         },
         isEmail(){
             const emailReg = /^[a-z][a-z0-9_.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/;
-            if(emailReg.test(this.email)){
+            if(emailReg.test(this.email.toLowerCase())){
                 this.checkEmail();
                 return true
             } else {

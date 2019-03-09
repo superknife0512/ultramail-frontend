@@ -4,12 +4,25 @@
             <nav class="side__navbar" v-on-clickaway="hide" v-if="isActiveNav">
                 <h5 class="center-align cyan-text side__brand">Ultra email logo</h5>
                 <ul class="side__links">
+                    
+                    <router-link tag="li" 
+                                :to="`/user/${userId}`"
+                                class="side__item" 
+                                exact
+                                exact-active-class="active"
+                                v-if="isLogin">
+                        <a>
+                            <i class="material-icons left">dashboard</i> 
+                            Bảng điều khiển
+                        </a>
+                    </router-link>
 
                     <router-link tag="li" 
                                 to="/auth/login" 
                                 class="side__item" 
                                 exact
-                                exact-active-class="active">
+                                exact-active-class="active"
+                                v-if="!isLogin">
                         <a>
                             <i class="material-icons left">account_box</i> 
                             Đăng nhập
@@ -20,14 +33,15 @@
                                     to="/auth/signup" 
                                     class="side__item" 
                                     exact
-                                    exact-active-class="active">
+                                    exact-active-class="active"
+                                    v-if="!isLogin">
                         <a>
                             <i class="material-icons left">account_circle</i>
                             Đăng kí 
                         </a>
                     </router-link>
 
-                    <li class="side__item">
+                    <li class="side__item" v-if="isLogin" @click="logout">
                         <a class="" href="#">
                             <i class="material-icons left">exit_to_app</i>
                             Thoát
@@ -57,6 +71,11 @@ export default {
                 this.$emit('deActiveSidenav')
                 this.isActiveNav = true;
             }, 400)
+        },
+        
+        logout(){
+            this.$store.commit('logoutHandler')
+            this.$router.push('/auth/login')
         }
     },
     directives:{
@@ -64,7 +83,15 @@ export default {
     },
     components:{
         leftSlide
-    }
+    },
+    computed: {
+        isLogin(){
+            return this.$store.getters.loginState
+        },
+        userId(){
+            return this.$store.state.userId
+        },
+    },
 }
 </script>
 

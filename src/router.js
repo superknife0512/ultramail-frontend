@@ -1,3 +1,4 @@
+import store from './store.js'
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from './views/home.vue'
@@ -56,6 +57,17 @@ export default new Router({
       name: 'user',
       props: true,
       component: user,
+      
+      beforeEnter: (to,from,next)=>{
+        const isLogin = store.getters.loginState
+        
+        if(isLogin == false){
+          next('/auth/login');
+        } else if(isLogin == true){
+          next()
+        }
+        
+      },
       children:[
         {
           path: '/',

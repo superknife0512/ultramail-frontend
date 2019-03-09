@@ -9,8 +9,10 @@
             thử các dịch vụ trang web trong vòng 7 ngày.
             bạn hãy dán nó vào trường bên dưới. Xin cảm ơn.
             Nếu 5 phút mà bạn vẫn chưa nhận được hãy nhấn
-            <a href="#">Gửi lại</a>
+            <a href="#" @click.prevent.once="resend">Gửi lại (1 lần nữa)</a>,
+            Bạn có 10' trước khi mã kích hoạt hết hạn
         </h6>
+        
         <div class="row">
             <div class="input-field col s6">
                 <input placeholder="Mã kích hoạt" 
@@ -30,7 +32,7 @@
 </template>
 
 <script>
-import  submitBtn from '../../components/button/submitBtn.vue'
+import submitBtn from '../../components/button/submitBtn.vue'
 export default {
     data() {
         return {
@@ -53,7 +55,7 @@ export default {
                 method: 'POST',
                 body:JSON.stringify({
                     code: this.code,
-                    userId: this.$store.state.signupUserId,
+                    userId: this.$store.state.signupUserId || 'acais1i2hiuas',
                 }),
                 headers:{
                     'Content-Type': 'application/json'
@@ -63,25 +65,40 @@ export default {
                 return resp.json();
             }).then(resData=>{
                 if(resData.status === 'success'){
-                    this.firePopup('success', 'Thành công', 'Kích hoạt tài khoảng thành công');
+                    this.firePopup('success', 'Thành công', 'Kích hoạt tài khoảng thành công - đang chuyển về trang đăng nhập ...');
+                    setTimeout(()=>{
+                        this.$router.push('/auth/login');
+                    }, 2000)
                 } else if (resData.status === 'fail'){
                     this.firePopup('error', 'Mã không hợp lệ', 'Kích hoạt tài khoảng thất bại');
                 }
             }).catch(err=>{
                 this.firePopup('error', 'Lỗi sever', 'Kích hoạt thất bại');
-                throw err
+                throw err;
             })
         },
-        firePopup(type, title, text){
-            this.$swal.fire({
-                type,
-                title,
-                text,
-                confirmButtonText: 'OK',
-                confirmButtonClass: 'teal darken-1 ',
-                footer: '<a href="/auth/login#" class="orange-text">Đăng nhập</a> '
+
+        resend(){
+            fetch('http://localhost:4000/user/resend', {
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    userId: this.$store.state.signupUserId
+                })
+            }).then(resp=>{
+                return resp.json()
+            }).then(resData=>{
+                if(resData.status === 'fail'){
+                    this.firePopup('warning', 'Gửi lại mail thất bại', 'Lỗi gửi mail thất bại từ server')
+                } else {
+                    this.firePopup('success', 'Thành công', 'Chúng tôi đã gửi lại mã kích hoạt cho bạn')
+                }
             })
-        }
+        },
+
+        
     }
 }
 </script>
