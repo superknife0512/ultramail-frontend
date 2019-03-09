@@ -45,6 +45,7 @@ export default new Vuex.Store({
     },
     
   },
+  
   actions: {
     autoLogout({commit}, remainingTime){
       setTimeout(()=>{

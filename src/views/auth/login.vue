@@ -30,7 +30,7 @@
                             Đăng kí ngay!!
                         </router-link>
                         hoặc
-                        <router-link tag="a" to="/auth/reset">
+                        <router-link tag="a" to="/auth/forgot">
                             Quên mật khẩu
                         </router-link>
                     </h6>

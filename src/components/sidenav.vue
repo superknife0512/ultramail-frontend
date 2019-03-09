@@ -133,6 +133,9 @@ export default {
                     }
                 }
             }
+            @media screen and (max-width: 600px){
+                margin-top: 1rem;
+            }
         }
         &__item{
             a{
@@ -143,6 +146,9 @@ export default {
                 display: flex;
                 align-items: center;
                 padding: 0 3rem;
+                @media screen and (max-width: 600px){
+                    padding: 0 2rem;
+                }
             }
         }
         &__brand{

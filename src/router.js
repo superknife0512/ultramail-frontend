@@ -8,6 +8,8 @@ import auth from './views/auth/auth.vue'
 import login from './views/auth/login.vue'
 import signup from './views/auth/signup.vue'
 import sucessLog from './views/auth/sucessLog.vue'
+import forgot from './views/auth/forgot.vue'
+import reset from './views/auth/reset.vue'
 
 import user from './views/user/user.vue'
 
@@ -47,6 +49,17 @@ export default new Router({
           path: '/auth/sucess',
           name: 'sucess',
           component: sucessLog,
+        },
+        {
+          path: '/auth/forgot',
+          name: 'forgot-password',
+          component: forgot,
+        },
+        {
+          path: '/auth/reset/:token',
+          name: 'reset-password',
+          component: reset,
+          props: true,
         },
       ]
     },  

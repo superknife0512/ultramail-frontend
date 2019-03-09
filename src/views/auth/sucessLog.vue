@@ -113,14 +113,29 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
+        @media screen and (max-width: 862px) {
+            max-width: 90%;
+            padding: 2rem 1.2rem;
+        }
         h4, h6{
             text-align: center;
         }
         h6{
             line-height: 1.6rem;
         }
+        h4{
+            @media screen and (max-width: 600px) {
+                font-size: 1.8rem;
+            }
+        }
         .input-field{
             width: 30rem !important;
+            @media screen and (max-width: 862px) {
+                width: 100% !important;
+            }
+        }
+        .row .col s6{
+            margin-left: 1rem;
         }
     }
 </style>
