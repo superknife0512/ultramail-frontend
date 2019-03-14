@@ -83,9 +83,15 @@ export default new Router({
       },
       children:[
         {
-          path: '/',
+          path: '',
           name: 'userBoard',
+          props:true,
           component: () => import(/* webpackChunkName: "user-group" */ './views/user/userBoard.vue'),
+        },
+        {
+          path: 'create-email',
+          name: 'createEmail',
+          component: () => import(/* webpackChunkName: "user-group" */ './views/user/createEmail.vue'),
         },
       ]
     },

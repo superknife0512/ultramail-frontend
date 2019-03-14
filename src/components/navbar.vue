@@ -1,52 +1,53 @@
 <template>
-  <nav>
-    <div class="nav-wrapper white ">
-      <div class="container">
-        <a href="#">
-          <i class="material-icons left cyan-text darken-2 resp-icon"
-            @click="activeSideMenu()">
-            menu
-          </i>
-        </a>
-        <router-link to="/" tag="a" class="brand-logo cyan-text text-darken-3">
-          Ultra Mail
-        </router-link>
-        <ul id="nav-mobile " class=" right hide-on-med-and-down">
+  <div class="navbar-fixed">
 
-          <router-link tag="li" 
-                        to="/auth/login" 
-                        exact exact-active-class="active"
-                        v-if="!isLogin">
-            <a class="nav__link grey-text text-darken-3">
-              <i class="material-icons left">account_box</i> 
-            Đăng nhập</a>
+    <nav>
+      <div class="nav-wrapper white ">
+        <div class="container">
+            <i class="material-icons left cyan-text darken-2 resp-icon"
+              @click="activeSideMenu()">
+              menu
+            </i>
+          <router-link to="/" tag="a" class="brand-logo cyan-text text-darken-3">
+            Ultra Mail
           </router-link>
+          <ul id="nav-mobile " class=" right hide-on-med-and-down">
 
-          <router-link tag="li" 
-                        to="/auth/signup" 
-                        exact exact-active-class="active"
-                        v-if="!isLogin">
+            <router-link tag="li" 
+                          to="/auth/login" 
+                          exact exact-active-class="active"
+                          v-if="!isLogin">
+              <a class="nav__link grey-text text-darken-3">
+                <i class="material-icons left">account_box</i> 
+              Đăng nhập</a>
+            </router-link>
 
-            <a class="nav__link cyan-text text-darken-2">
-              <i class="material-icons left">account_circle</i>
-            Đăng kí</a>
-          </router-link>
+            <router-link tag="li" 
+                          to="/auth/signup" 
+                          exact exact-active-class="active"
+                          v-if="!isLogin">
 
-          <li v-if="isLogin" @click="logout">
-            <a class="nav__link white-text cyan ">
-              <i class="material-icons left">exit_to_app</i>
-              Thoát 
-            </a>
-          </li>
+              <a class="nav__link cyan-text text-darken-2">
+                <i class="material-icons left">account_circle</i>
+              Đăng kí</a>
+            </router-link>
 
-        </ul>
+            <li v-if="isLogin" @click="logout">
+              <a class="nav__link white-text cyan ">
+                <i class="material-icons left">exit_to_app</i>
+                Thoát 
+              </a>
+            </li>
+
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
 </template>
 
 <style lang="scss">
-  .nav{
+  .nav-wrapper{
     &__link{
     }
   }
@@ -61,6 +62,7 @@
   }
   .resp-icon{
     padding: 0 1rem;
+    cursor: pointer;
   }
 
 </style>

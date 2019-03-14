@@ -12,7 +12,7 @@
                                 exact-active-class="active"
                                 v-if="isLogin">
                         <a>
-                            <i class="material-icons left">dashboard</i> 
+                            <i class="material-icons icon__dashboard left">dashboard</i> 
                             Bảng điều khiển
                         </a>
                     </router-link>
@@ -153,6 +153,11 @@ export default {
         }
         &__brand{
             margin-top: 1.5rem;
+        }
+    }
+    .icon{
+        &__dashboard{
+            color: rgb(255, 183, 116)
         }
     }
 </style>

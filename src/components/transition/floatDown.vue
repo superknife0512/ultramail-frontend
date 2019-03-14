@@ -19,7 +19,7 @@ export default {
 
 <style lang="scss">
     .float-down-enter-active {
-        animation: float-down 1s cubic-bezier(.28,.63,.06,1);
+        animation: float-down 1s  cubic-bezier(.28,.63,.06,1);
     }
     .float-down-leave-active {
         animation: float-down 1s cubic-bezier(.28,.63,.06,1) reverse;
