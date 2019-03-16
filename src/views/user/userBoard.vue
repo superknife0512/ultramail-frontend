@@ -1,5 +1,9 @@
 <template>
     <div class="container">
+        <expiration-msg v-if="remainingDate === 0">
+            Thời hạn sử dụng của tài khoảng này đã hết, hãy nhanh chóng liên hệ
+            với chúng tôi để gia hạn tài khoảng!
+        </expiration-msg>
         <upload-img :popupActive="popupActive"
                     @deactivePopup="popupActive = false"
                     @success="successHandler($event)"></upload-img>
@@ -148,7 +152,7 @@ export default {
             userData: {},
             code: '',
             popupActive: false,
-            passChangePopup: true,
+            passChangePopup: false,
         }
     },
 
@@ -176,9 +180,9 @@ export default {
         },
         avatar(){
             if(!this.userData.avatarUrl){
-                return 'http://localhost:4000/public/images/user.png'
+                return `${process.env.VUE_APP_PORT}/public/images/user.png`
             } else {
-                return 'http://localhost:4000/'+ this.userData.avatarUrl
+                return `${process.env.VUE_APP_PORT}/`+ this.userData.avatarUrl
             }
         }
     },
@@ -204,7 +208,7 @@ export default {
             this.initialize();
         },
         initialize(){
-            fetch(`http://localhost:4000/userDash/${this.userId}`,{
+            fetch(`${process.env.VUE_APP_PORT}/userDash/${this.userId}`,{
                 headers:{
                     'Authorization': 'Bearer '+ this.$store.state.token
                 }
@@ -215,6 +219,7 @@ export default {
                         return this.firePopup('error', 'Phát hiện lỗi', resData.msg)
                     }
                     this.userData = resData.user;
+                    this.$store.commit('createUserData', resData.user)
                 }).catch(err=>{
                     throw err
                 })
@@ -237,7 +242,7 @@ export default {
         &__wel{
             font-size: 2rem;
             font-weight: 600;
-            margin-top: 3rem;
+            margin-top: 5rem;
             margin-bottom: 6rem;
             text-align: center;
         }

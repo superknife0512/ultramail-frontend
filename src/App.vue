@@ -29,6 +29,7 @@ export default {
         this.$store.commit('logoutHandler');
       } else {
         this.$store.commit('autoLogin', loginData)
+        this.$store.dispatch('autoLogout', this.loginExpiryTime);
       }
     }
   },

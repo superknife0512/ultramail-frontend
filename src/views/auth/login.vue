@@ -87,7 +87,7 @@ export default {
         //type, title, text, footer
         onSubmit(){
             this.isLoading = true;
-            fetch('http://localhost:4000/user/login', {
+            fetch(`${process.env.VUE_APP_PORT}/user/login`, {
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json',

@@ -1,7 +1,9 @@
 <template>
     <div class="up-popup" v-if="popupActive">
-        <float-down :appear="popupActive" >
-                <div class="up-popup__body z-depth-3" v-on-clickaway="away">
+        <float-down>
+                <div class="up-popup__body z-depth-3" 
+                    v-on-clickaway="away"
+                    v-if="activebody">
                     <h5 class="up-popup__title light-blue-text text-darken-3">
                         Upload avatar của bạn
                     </h5>
@@ -51,7 +53,8 @@ export default {
             fileUrl: null,
             file: '',
             isLoading: false,
-            uploadPercentage: 0
+            uploadPercentage: 0,
+            activebody: true,
         }
     },
     methods:{
@@ -61,7 +64,11 @@ export default {
             this.file = file;
         },
         away(){
-            this.$emit('deactivePopup')
+            this.activebody = false,
+            setTimeout(() => {
+                this.$emit('deactivePopup');
+                this.activebody = true;                
+            }, 1000);
         },
         success(user){
             this.$emit('success', user)

@@ -18,6 +18,18 @@
                     </router-link>
 
                     <router-link tag="li" 
+                                :to="`/user/${userId}/create-email`"
+                                class="side__item" 
+                                exact
+                                exact-active-class="active"
+                                v-if="isLogin">
+                        <a>
+                            <i class="material-icons icon__gift left">redeem</i> 
+                            Trang quà tặng
+                        </a>
+                    </router-link>
+
+                    <router-link tag="li" 
                                 to="/auth/login" 
                                 class="side__item" 
                                 exact
@@ -158,6 +170,9 @@ export default {
     .icon{
         &__dashboard{
             color: rgb(255, 183, 116)
+        }
+        &__gift{
+            color: rgb(176, 223, 67)
         }
     }
 </style>

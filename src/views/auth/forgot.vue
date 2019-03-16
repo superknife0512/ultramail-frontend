@@ -39,7 +39,7 @@ export default {
         onSubmit(){
             //type, title, text, footer
             this.isLoading = true;
-            fetch('http://localhost:4000/user/forgot', {
+            fetch(`${process.env.VUE_APP_PORT}/user/forgot`, {
                 method: 'POST',
                 headers:{
                     'content-type':'application/json'
@@ -75,23 +75,5 @@ export default {
 </script>
 
 <style lang="scss">
-    // .forgot{
-    //     .row{
-    //         @media screen and (max-width: 600px){
-
-    //             width: 100%;
-    //             display: flex;
-    //             justify-content: center
-    //         }
-    //     }
-    //     .input-field{
-    //         @media screen and (max-width: 600px){
-
-    //             width: 100%;
-    //             margin-left: 1rem;
-    //             padding: 0;
-    //         }
-    //     }
-    // }
 </style>
 

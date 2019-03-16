@@ -51,7 +51,7 @@ export default {
     methods:{
         onSubmit(){
             this.isLoading = true;
-            fetch('http://localhost:4000/user/activate',{
+            fetch(`${process.env.VUE_APP_PORT}/user/activate`,{
                 method: 'POST',
                 body:JSON.stringify({
                     code: this.code,
@@ -79,7 +79,7 @@ export default {
         },
 
         resend(){
-            fetch('http://localhost:4000/user/resend', {
+            fetch(`${process.env.VUE_APP_PORT}/user/resend`, {
                 headers:{
                     'Content-Type': 'application/json',
                 },

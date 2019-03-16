@@ -12,6 +12,7 @@ export default new Vuex.Store({
     loginExpire :  0,
     token:  '',
     userId: '',
+    userData: {},
   },
 
   mutations: {
@@ -35,8 +36,7 @@ export default new Vuex.Store({
       state.userId = loginData.userId;
       state.token = loginData.token;
       state.loginExpire = loginData.loginExpire;
-    },
-    
+    },    
 
     logoutHandler(state){
       state.isLogin = false;
@@ -45,6 +45,10 @@ export default new Vuex.Store({
       localStorage.removeItem('loginData');
       router.push('/auth/login');
     },
+
+    createUserData(state, userData){
+      state.userData = userData
+    }
     
   },
   

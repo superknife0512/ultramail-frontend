@@ -55,7 +55,7 @@ export default {
         onSubmit(){
             // do something
             this.isLoading = true;
-            fetch('http://localhost:4000/user/reset',{
+            fetch(`${process.env.VUE_APP_PORT}/user/reset`,{
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
@@ -78,7 +78,7 @@ export default {
         },
         checkValid(){
             //type, title, text, footer
-            fetch('http://localhost:4000/user/check-valid',{
+            fetch(`${process.env.VUE_APP_PORT}/user/check-valid`,{
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'

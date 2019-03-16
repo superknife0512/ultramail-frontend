@@ -113,7 +113,7 @@ export default {
             this.isLoading = true;
             const expireDate = new Date().getTime() + 60*10*1000; // 10 minutes
             
-            fetch('http://localhost:4000/user/signup',{
+            fetch(`${process.env.VUE_APP_PORT}/user/signup`,{
                 method: 'POST',
                 body: JSON.stringify({
                     email: this.email.toLowerCase(),
@@ -137,7 +137,7 @@ export default {
             })
         },
         checkEmail(){
-            fetch('http://localhost:4000/user/check-mail',{
+            fetch(`${process.env.VUE_APP_PORT}/user/check-mail`,{
                 method: "POST",
                 body: JSON.stringify({email: this.email.toLowerCase()}),
                 headers :{

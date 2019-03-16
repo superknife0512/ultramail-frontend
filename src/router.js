@@ -96,6 +96,14 @@ export default new Router({
       ]
     },
 
+    //gift router *****************************
+    {
+      path: '/gift/:userId',
+      name: 'gift',
+      props: true,
+      component: () => import(/* webpackChunkName: "gift-group" */ './views/user/giftPage.vue'),
+    },
+
     {
       path: '*',
       name: '404',
