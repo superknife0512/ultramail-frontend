@@ -13,6 +13,8 @@ export default new Vuex.Store({
     token:  '',
     userId: '',
     userData: {},
+    userRole: null,
+    templateMarket: '',
   },
 
   mutations: {

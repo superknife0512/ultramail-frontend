@@ -8,6 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "grapesjs": "^0.14.55",
+    "grapesjs-preset-newsletter": "^0.2.20",
+    "jquery": "^3.3.1",
     "vue": "^2.6.6",
     "vue-clickaway": "^2.2.2",
     "vue-color": "^2.7.0",

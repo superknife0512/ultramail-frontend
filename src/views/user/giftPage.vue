@@ -14,28 +14,40 @@
                     <div class="edit-prev__unlock" :style="unlockColor">
                         <h6 class=""
                             :style="{color: color.hex}">Để nhận được tài liệu, bạn vui lòng điền đầy đủ thông tin bên dưới</h6>
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <label for="token">Mã nhận quà</label>
-                                <input type="text" name="token" v-model="token">
-                            </div>
-                        </div>
+                        
+                        <div v-if="!isUnlock">
 
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <label for="name">Nhập vào email của bạn</label>
-                                <input type="email" name="email" v-model="email">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <label for="token">Mã nhận quà</label>
+                                    <input type="text" name="token" v-model="token">
+                                </div>
+                                <div class="input-field col s6">
+                                    <label for="token">Tên của bạn</label>
+                                    <input type="text" name="token" v-model="studentName">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label for="name">Nhập vào email của bạn</label>
+                                    <input type="email" name="email" v-model="email">
+                                </div>
+                            </div>
+                            <div class="edit-prev__lock">
+                                <button class="btn waves-effect light-effect" 
+                                        :style="bgColor"
+                                        @click="unlock"
+                                        :disabled="!email || !token || !isEmail">
+                                    <i class="material-icons left">lock_open</i>
+                                    Mở khóa tài liệu
+                                </button>
                             </div>
                         </div>
-                        <div class="edit-prev__lock">
-                            <button class="btn waves-effect light-effect" 
-                                    :style="bgColor"
-                                    @click="unlock"
-                                    :disabled="!email || !token">
-                                <i class="material-icons left">lock_open</i>
-                                Mở khóa tài liệu
-                            </button>
-                        </div>
+                        <p v-if="isUnlock">Cảm ơn bạn đã đăng kí nhận ebook, chúng tôi đã gửi một món quà đến địa 
+                            chỉ email: <b>{{ email }}</b>. Bạn hãy kiểm tra hộp thư của mình nhé, có thể 
+                            nó cũng sẽ ở trong spam nếu bạn không tìm thấy.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -54,6 +66,7 @@ export default {
             email: '',
             isMount: true,
             isUnlock: false,
+            studentName: ''
         }
     },
 
@@ -65,6 +78,25 @@ export default {
         unlock(){
             if(this.token === this.userGift.token){
                 this.isUnlock = true;
+                fetch('http://localhost:4000/userDash/send-gift',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: this.email,
+                        name: this.userGift.name,
+                        desc: this.userGift.desc,
+                        downloadLink: this.userGift.downloadLink,
+                        userId: this.userId,
+                        studentName: this.studentName
+                    })
+                }).then(resp=>{
+                    return resp.json()
+                }).catch(err=>{
+                    this.firePopup('error', 'Lỗi không gửi được email', 'Lỗi xãy ra từ server')
+                    throw err
+                })
             }
         },
 
@@ -86,7 +118,8 @@ export default {
                     throw err
                 })
 
-        }
+        },
+        
     },
 
     computed: {
@@ -114,6 +147,14 @@ export default {
                 return `backgroundColor : rgba(${color.r}, ${color.g}, ${color.b}, .13)`
             }
             return false
+        },
+        isEmail(){
+            const emailReg = /^[a-z][a-z0-9_.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/;
+            if(emailReg.test(this.email.toLowerCase())){
+                return true
+            } else {
+                return false
+            }
         }
     },
 }

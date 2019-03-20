@@ -63,6 +63,23 @@ export default new Router({
         },
       ]
     },  
+
+    // admin router ***********************
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: () => import(/* webpackChunkName: "admin-group" */ './views/admin/admin-pannel.vue'),
+      beforeEnter: (to,from,next)=>{
+        const isLogin = store.getters.loginState
+        const isAdmin = store.state.userId
+        
+        if(isLogin === false && isAdmin !== '5c8f5280cecd5524d8e7fc4c'){
+          next('/');
+        } else {
+          next()
+        }        
+      },
+    },
     
     //user route *************************
     {
@@ -78,9 +95,9 @@ export default new Router({
           next('/auth/login');
         } else if(isLogin == true){
           next()
-        }
-        
+        }        
       },
+
       children:[
         {
           path: '',
@@ -102,6 +119,20 @@ export default new Router({
       name: 'gift',
       props: true,
       component: () => import(/* webpackChunkName: "gift-group" */ './views/user/giftPage.vue'),
+    },
+
+    // marketing campaign router
+    {
+      path: '/campaign',
+      name: 'campaign',
+      component: () => import(/* webpackChunkName: "campaign-group" */ './views/Email-mar/campaign.vue'),
+      children: [
+        {
+          path: '/',
+          name: 'campaigns',
+          component: () => import(/* webpackChunkName: "campaign-group" */ './views/Email-mar/emailCampaign.vue'),
+        },
+      ]
     },
 
     {

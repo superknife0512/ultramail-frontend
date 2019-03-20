@@ -2,12 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
-
 import VueSweetalert2 from 'vue-sweetalert2'
+import {Slider} from 'vue-color';
+import grapesjs from 'grapesjs';
+// import jquery from 'jquery';
+
 import {firePopup} from './mixins/swalPopup.js'
 import Tooltip from 'vue-directive-tooltip';
 import 'vue-directive-tooltip/css/index.css';
-import {Slider} from 'vue-color';
 
 import submitBtn from './components/button/submitBtn.vue'
 import warningMsg from './components/messages/warningMsg.vue'
@@ -26,7 +28,8 @@ Vue.component('grid-layout',gridLayout)
 Vue.component('slider-picker',Slider)
 Vue.component('v-loader',loader)
 
-
+Object.defineProperty(Vue.prototype, '$grapesjs', {value: grapesjs});
+// Object.defineProperty(Vue.prototype, '$', {value: jquery})
 
 Vue.mixin(firePopup);
 

@@ -83,10 +83,11 @@
                         <p>Bạn đã mua mã kích hoạt trước đó thì bạn có thể kích hoạt ngay tại đây</p>
                         <div class="user__acc-inp">
                             <input v-model="code" type="text" placeholder="Mã kích hoạt" />
-                            <button class="btn waves-effect waves-light cyan">
-                                <i class="material-icons left">turned_in</i>
-                                kích hoạt
-                            </button>
+                            <submit-btn :isLoading="isActivating"
+                                        :disableCon="!code"
+                                        @onSubmit="activateLicense">
+                                Kích hoạt tài khoảng
+                            </submit-btn>
                         </div>
                     </div>
                 </div>
@@ -109,26 +110,18 @@
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>Leesin</td>
-                            <td>test@gmail.com</td>
-                            <td>18-03-2018</td>
+                        <tr v-for="contact in userData.studentContacts" :key="contact.email">
+                            <td>{{contact.name}}</td>
+                            <td>{{contact.email}}</td>
+                            <td>{{contact.createdAt | dateFilter}}</td>
                             <td>
-                                <button class="btn waves-effect waves-light red">
+                                <button class="btn waves-effect waves-light red"
+                                        @click="deleteContact(contact._id)">
                                     Delete
                                 </button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Yasuo</td>
-                            <td>test2@gmail.com</td>
-                            <td>13-03-2018</td>
-                            <td>
-                                <button class="btn waves-effect waves-light red">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>
@@ -153,6 +146,7 @@ export default {
             code: '',
             popupActive: false,
             passChangePopup: false,
+            isActivating: false,
         }
     },
 
@@ -173,7 +167,8 @@ export default {
                 return {
                     'cyan darken-1' : this.userData.userLevel === 'basic',
                     'amber darken-1' : this.userData.userLevel === 'standard',
-                    'red darken-1' : this.userData.userLevel === 'premium',
+                    'deep- orange darken-1' : this.userData.userLevel === 'premium',
+                    'red darken-1' : this.userData.userLevel === 'enterprise',
                 }
             }
             return false;
@@ -223,6 +218,54 @@ export default {
                 }).catch(err=>{
                     throw err
                 })
+        },
+        activateLicense(){
+            this.isActivating = true;
+            fetch(`${process.env.VUE_APP_PORT}/userDash/update-license`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+this.$store.state.token
+                },
+                body: JSON.stringify({
+                    key: this.code,
+                })
+            }).then(resp=>{
+                return resp.json();
+            }).then(resData=>{
+                this.isActivating = false;
+                if( resData.status === 'fail'){
+                    this.firePopup('error', 'Lỗi kích hoạt', resData.msg);
+                } else {
+                    this.firePopup('success', 'Kích hoạt thành công', resData.msg);
+                    this.initialize();
+                }
+            }).catch(err=>{
+                this.firePopup('info', 'Lỗi server', err)
+                throw err
+            })
+        },
+        deleteContact(contactId){
+            fetch(`${process.env.VUE_APP_PORT}/userDash/contact`,{
+                method: 'DELETE',
+                headers:{
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer '+this.$store.state.token
+                },
+                body: JSON.stringify({
+                    contactId: contactId,
+                })
+            }).then(resp=>{
+                return resp.json();
+            }).then(resData=>{
+                if(resData.status === 'success'){
+                    this.firePopup('success', 'Xóa thành công', resData.msg)
+                    this.initialize()
+                }
+            }).catch(err=>{
+                this.firePopup('error', 'Có lỗi server', err.err.msg);
+                throw err
+            })
         }
     },
     components:{

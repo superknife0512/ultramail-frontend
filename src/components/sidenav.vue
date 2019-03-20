@@ -30,6 +30,30 @@
                     </router-link>
 
                     <router-link tag="li" 
+                                :to="`/campaign`"
+                                class="side__item" 
+                                exact
+                                exact-active-class="active"
+                                v-if="isLogin">
+                        <a>
+                            <i class="material-icons pink-text text-darken-1 icon__gift left">important_devices</i> 
+                            Chiến lượt marketing
+                        </a>
+                    </router-link>
+
+                    <router-link tag="li" 
+                                :to="`/admin`"
+                                class="side__item" 
+                                exact
+                                exact-active-class="active"
+                                v-if="isLogin && isAdmin">
+                        <a>
+                            <i class="material-icons blue-text text-darken-1 icon__gift left">how_to_reg</i> 
+                            Admin
+                        </a>
+                    </router-link>
+
+                    <router-link tag="li" 
                                 to="/auth/login" 
                                 class="side__item" 
                                 exact
@@ -103,6 +127,9 @@ export default {
         userId(){
             return this.$store.state.userId
         },
+        isAdmin(){
+            return this.$store.state.userId === '5c8f5280cecd5524d8e7fc4c';
+        }
     },
 }
 </script>
