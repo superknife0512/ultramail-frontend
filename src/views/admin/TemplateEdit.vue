@@ -2,9 +2,11 @@
     <grid-layout>
         <div class="btn-command">
             <button class="btn waves-effect amber black-text"
-                    @click="isDisplay = true"> Create template </button>
+                    @click="isDisplay = true"> {{ editMode ? 'Update Template' : 'Create Template'}} </button>
         </div>        
         <temp-create-popup :inlinedHTML="inlinedHTML" :components="components"
+                            :editMode="editMode"
+                            :editedTemplate="editedTemplate"
                             v-if="isDisplay"
                             @deactivePopup="isDisplay = false"
                             @getTemplate="getTemplate"></temp-create-popup>
@@ -31,6 +33,7 @@ export default {
             inlinedHTML: '',
             style: '',
             isDisplay: false,
+            editedTemplate: '',
         }
     },
 
@@ -81,6 +84,10 @@ export default {
                         border-radius: 3px; ">Button
                         </a>`,
         })
+
+        if(this.editMode === true){
+            this.setComponents();
+        }
         
     },
     methods:{
@@ -90,6 +97,19 @@ export default {
             this.html = localStorage.getItem('gjs-html');
             this.inlinedHTML = this.editor.runCommand('gjs-get-inlined-html');
         },
+
+        setComponents(){
+            const templateId = this.$store.state.editedTemplateId;
+            this.editedTemplate = this.$store.getters.editedTemplate(templateId);
+            const components = JSON.parse(this.editedTemplate.components);
+            this.editor.setComponents(components);
+        }
+    },
+
+    computed:{
+        editMode(){
+            return this.$store.state.editMode;
+        }
     }
 }
 </script>

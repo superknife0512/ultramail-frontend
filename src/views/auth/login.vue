@@ -100,7 +100,7 @@ export default {
                 return resp.json();
             }).then(resData=>{
                 this.isLoading = false;
-                const remainingTime = 1*60*60*1000
+                const remainingTime = 2*60*60*1000
                 if(resData.status === 'fail'){
                     this.firePopup('error', 'Đăng nhập thất bại', resData.msg)
                 } else if (resData.status === 'success') {

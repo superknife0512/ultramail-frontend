@@ -27,7 +27,7 @@
             </ul>
         </div>
         
-            <component :is="componentId"></component>
+            <component :is="componentId" @editTemp="editTemplate"></component>
     </div>
 </template>
 
@@ -54,7 +54,11 @@ export default {
     methods:{
         changeComponent(compId, tabActive){
             this.componentId = compId;
-            this.activeTab = tabActive
+            this.activeTab = tabActive;
+            this.$store.commit('changeEditMode', {mode: false})
+        },
+        editTemplate(){
+            this.componentId = 'templateEdit';            
         }
     }
 }

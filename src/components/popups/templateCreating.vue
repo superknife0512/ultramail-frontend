@@ -7,7 +7,9 @@
                 <form action="#">
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="first_name" v-model="name" type="text" class="validate">
+                            <input id="first_name" v-model="name" 
+                                    type="text" 
+                                    class="validate">
                             <label for="first_name">Template name</label>
                         </div>
                     </div>
@@ -23,7 +25,9 @@
                         <div class="file-field input-field col s12">
                             <div class="btn waves-effect cyan lighten-3 ">
                                 <span class="grey-text text-darken-3">Images</span>
-                                <input type="file" ref="file" @change="checkFile">
+                                <input type="file" 
+                                        ref="file"
+                                        @change="checkFile">
                             </div>
                             <div class="file-path-wrapper">
                                 <input class="file-path validate" type="text">
@@ -36,7 +40,7 @@
                                 @onSubmit="submit"
                                 :disableCon="!name && !desc && !fileUrlTemp"
                                 :isLoading="isLoading">
-                                Submit
+                                {{ editMode ? 'Update' : 'Submit' }}
                     </submit-btn>
                 </form>
                 <i class="material-icons close-icon red-text"
@@ -52,12 +56,19 @@
 import floatDown from '../transition/floatDown';
 import { mixin as clickaway } from 'vue-clickaway';
 export default {
-    props:['components', 'inlinedHTML'],
+    props:['components', 'inlinedHTML', 'editMode', 'editedTemplate'],
 
     mixins: [clickaway],
 
     components: {
         floatDown
+    },
+
+    created(){
+        if (this.editMode){
+            this.name = this.editedTemplate.name;
+            this.desc = this.editedTemplate.desc;
+        }
     },
 
     data() {
@@ -79,6 +90,17 @@ export default {
         submit(){
             this.$emit('getTemplate')
             this.isLoading = true;
+            
+            let url,method;
+
+            if(!this.editMode){
+                url = `${process.env.VUE_APP_PORT}/admin/create-template`;
+                method = 'POST'
+            } else {
+                url = `${process.env.VUE_APP_PORT}/admin/edit-template/${this.editedTemplate._id}`;
+                method = 'PUT'
+            }
+
             setTimeout(()=>{
                 const formData = new FormData();
                 formData.append('name', this.name);
@@ -87,8 +109,8 @@ export default {
                 formData.append('components', this.components.toString());
                 formData.append('html', this.inlinedHTML.toString())
 
-                fetch(`${process.env.VUE_APP_PORT}/admin/create-template`,{
-                    method: 'POST',
+                fetch(url,{
+                    method: method,
                     headers: {
                         'Authorization': 'Bearer '+ this.$store.state.token
                     },
@@ -100,7 +122,13 @@ export default {
                     if(resData.status === 'fail'){
                         this.firePopup('info', 'Có lỗi xãy ra', resData.msg);
                     } else {
-                        this.firePopup('success', 'Tạo thành công một template', resData.msg);
+                        let title;
+                        if(!this.editMode){
+                            title= 'Tạo thành công một template'
+                        } else {
+                            title = 'Cập nhật thành công'
+                        }
+                        this.firePopup('success', title, resData.msg);
                     }
                 }).catch(err=>{
                     this.isLoading = false;

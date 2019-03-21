@@ -14,7 +14,10 @@ export default new Vuex.Store({
     userId: '',
     userData: {},
     userRole: null,
-    templateMarket: '',
+
+    templates: [],
+    editedTemplateId: '',
+    editMode: false,
   },
 
   mutations: {
@@ -23,7 +26,7 @@ export default new Vuex.Store({
     },
     loginHandler(state, resData){
       state.isLogin = true;
-      state.loginExpire = Date.now() + 1*60*60*1000;
+      state.loginExpire = Date.now() + 2*60*60*1000;
       state.token = resData.token;
       state.userId = resData.userId;
 
@@ -50,6 +53,20 @@ export default new Vuex.Store({
 
     createUserData(state, userData){
       state.userData = userData
+    },
+
+
+
+    setTemplates(state, templates){
+      state.templates = templates
+    },
+
+    changeEditMode(state, mode){
+      state.editMode = mode.mode;
+    },
+
+    setEditTemplate(state, templateId){
+      state.editedTemplateId = templateId
     }
     
   },
@@ -66,6 +83,10 @@ export default new Vuex.Store({
   getters:{
     loginState(state){
       return state.isLogin;
+    }, 
+
+    editedTemplate: (state)=> id =>{
+      return state.templates.find(temp=> temp._id === id)
     }
   }
 })
