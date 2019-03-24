@@ -1,5 +1,5 @@
 <template>
-    <grid-layout>
+    <grid-layout class="adjust">
         <div class="email-editor">
             <form action="#" class="email-editor__body z-depth-3">
                 <h5 class="blue-text text-darken-2">Chỉnh sửa trang quà tặng</h5>
@@ -220,6 +220,14 @@ export default {
 </script>
 
 <style lang="scss">
+    .adjust{
+        grid-column: 2/13;
+        @media screen and (max-width: 600px){             
+                grid-column: 1/13
+            }
+
+        background-color: #edf6f4;
+    }
     .email-editor{
         margin: 1rem;
         grid-column: 2/5;
@@ -238,10 +246,12 @@ export default {
         &__body{
             padding: 2rem 1.5rem;
             width: 100%;
-            border-radius: .7rem;
+            border-radius: .3rem;
             
             position: sticky;
             top: 5.4rem;
+            
+            background-color: white;
 
             @media screen and (max-width: 600px){
                 padding: 1rem .5rem
@@ -257,8 +267,8 @@ export default {
         }
     }
     .edit-prev{
-        padding: 3rem;
-        background-color: #f1f1f1;
+        padding: 4rem 3rem;
+        border: 1px solid rgba($color: #000000, $alpha: .1);
         grid-column: 5/12;
         margin: 1rem;
         display: flex;
@@ -276,7 +286,7 @@ export default {
             background-color: white;
         }
 
-        @media screen and (max-width: 6000px){
+        @media screen and (max-width: 600px){
                 padding: 1rem .5rem
         }
 

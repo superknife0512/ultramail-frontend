@@ -1,0 +1,200 @@
+<template>
+    <div class="sidebar">
+        <upload-img :popupActive="popupActive"
+                    @deactivePopup="popupActive = false"
+                    @success="successHandler($event)"></upload-img>
+        <div class="sidebar__logo">
+            <h5>Ultra-mail</h5>
+            <a href="#" class="sidebar__icon--resp" >
+                <svg class="sidebar__icon">
+                    <use xlink:href="../assets/icons.svg#icon-grid"></use>
+                </svg>
+            </a>
+        </div>
+        <div class="sidebar__face">
+            <img :src="avatar"
+                class="sidebar__face--img"
+                @click.prevent="popupActive = true">
+            <button class="btn btn-small" @click="logout">Đăng xuất</button>
+        </div>
+        
+        <router-link tag="div" :to="`/user/${userId}`" 
+                    class="sidebar__item"
+                    exact
+                    exact-active-class="sidebar--active">
+            <svg class="sidebar__icon">
+                <use xlink:href="../assets/icons.svg#icon-news"></use>
+            </svg>
+            <p>Dashboard</p>
+        </router-link>
+
+        <router-link tag="div" :to="`/user/${userId}/create-email`" class="sidebar__item"
+                    exact
+                    exact-active-class="sidebar--active">
+            <svg class="sidebar__icon">
+                <use xlink:href="../assets/icons.svg#icon-open-book"></use>
+            </svg>
+            <p>Gift page</p>
+        </router-link>
+
+        <router-link tag="div" to="/" class="sidebar__item"
+                    exact
+                    exact-active-class="sidebar--active">
+            <svg class="sidebar__icon">
+                <use xlink:href="../assets/icons.svg#icon-flag"></use>
+            </svg>
+            <p>Marketing <br> campaign</p>
+        </router-link>
+
+        <router-link tag="div" to="/" class="sidebar__item"
+                    exact
+                    exact-active-class="sidebar--active">
+            <svg class="sidebar__icon">
+                <use xlink:href="../assets/icons.svg#icon-users"></use>
+            </svg>
+            <p>Contact</p>
+        </router-link>
+
+        <router-link tag="div" to="/admin" class="sidebar__item"
+                    exact
+                    v-if="isAdmin"
+                    exact-active-class="sidebar--active">
+            <svg class="sidebar__icon" style="fill: #fe3f7e">
+                <use xlink:href="../assets/icons.svg#icon-shield"></use>
+            </svg>
+            <p>Admin</p>
+        </router-link>
+
+    </div>
+</template>
+
+<script>
+import uploadImg from '../components/popups/uploadImg'
+
+export default {
+    data() {
+        return {
+            popupActive: false,
+        }
+    },
+    computed:{        
+        isAdmin(){
+            return this.$store.state.userId === '5c9614fb2206af03f417171c';
+        },
+        userId(){
+            return this.$store.state.userId
+        },
+        avatar(){
+            const avatar = this.$store.state.userData.avatarUrl;
+            if(!avatar){
+                return `${process.env.VUE_APP_PORT}/public/images/user.png`
+            }
+            return `${process.env.VUE_APP_PORT}/${avatar}`;
+        },
+    },
+    methods:{
+        activeNav(){
+            this.$emit('activeNav')
+        },
+
+        successHandler(avatar){
+            this.$store.commit('updateAvatar',avatar)
+        },
+        logout(){
+            this.$store.commit('logoutHandler')
+        }
+        
+    },
+    components:{
+        uploadImg
+    }
+}
+</script>
+
+
+<style lang="scss">
+    $color-primary: #f4dc92;
+    $color-secondary: #fe3f7e;
+
+    .sidebar--active{
+        background-color: #edf6f4;
+        width: 100% !important;
+        border: none;
+        p{
+            color: #333
+        }
+        .sidebar__icon{
+            fill: #333;
+            height: 2.5rem;
+            width: 2.5rem;
+        }
+    }
+
+    .sidebar{
+        background-color: rgb(53, 53, 53);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        position: sticky;
+
+        &__logo{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.8rem 0;
+            color: #ff9100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        &__face{
+            padding: 1.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            &--img{
+                
+                height: 5.5rem;
+                width: 5.5rem;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 50%;
+                margin-bottom: 1rem;
+            }
+        }
+        &__item{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.2rem;
+            cursor: pointer;
+            width: 85%;
+            transition: all .2s;
+            &:not(:last-child){
+                border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            }
+            p{
+                margin: 0.8rem;
+                margin-bottom: 0;
+            }
+            &:hover{
+                background-color: rgb(134, 134, 134);
+                width: 100%;
+                border: none;
+            }
+        }
+        &__icon{
+            height: 2.3rem;
+            width: 2.3rem;
+            fill: $color-primary;
+
+            &--resp{
+            }
+        }
+    }
+</style>
+
+

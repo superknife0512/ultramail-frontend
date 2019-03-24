@@ -1,5 +1,5 @@
 <template>
-    <div class="keygen container">
+    <div class="keygen ">
         <h5>Generator keygen</h5>
         <form class="input-field col s12">
              <p>
@@ -82,7 +82,7 @@ export default {
 
 <style lang="scss">
     .keygen{
-        grid-column: 3/11;
+        grid-column: 2/12;
         margin-top: 2rem;
     }
 </style>

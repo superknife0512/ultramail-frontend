@@ -70,8 +70,8 @@ export default {
                 this.activebody = true;                
             }, 1000);
         },
-        success(user){
-            this.$emit('success', user)
+        success(avatar){
+            this.$emit('success', avatar)
         },
         submit(){
             this.isLoading = true;
@@ -128,7 +128,7 @@ export default {
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-radius: 10px;
+            border-radius: 5px;
             position: relative;
             @media only screen and (max-width: 620px){
                 width: auto;

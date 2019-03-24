@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <div class="container">
-            <br><br>
+    <div class="grid-center">
             <h4 class="indigo-text">Admin pannel</h4>
             <ul class="tab z-depth-2">
                 <li class="tab__item" 
@@ -25,7 +23,6 @@
                     <a href="#" class="tab__link">Modify template</a>
                 </li>
             </ul>
-        </div>
         
             <component :is="componentId" @editTemp="editTemplate"></component>
     </div>
@@ -55,6 +52,8 @@ export default {
         changeComponent(compId, tabActive){
             this.componentId = compId;
             this.activeTab = tabActive;
+
+            // change the editMode to false
             this.$store.commit('changeEditMode', {mode: false})
         },
         editTemplate(){
@@ -65,9 +64,15 @@ export default {
 </script>
 
 <style lang="scss">
+    .grid-center{
+        grid-column: 3/11;
+    }
     .tab{
         margin-top: 3rem;
         display: flex;
+        @media screen and (max-width: 600px){             
+                flex-direction: column;
+            }
 
         &__item{
             padding: 1.5rem 2rem;     

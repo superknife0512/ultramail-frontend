@@ -1,5 +1,6 @@
 <template>
-    <grid-layout>
+    <div>
+
         <div class="btn-command">
             <button class="btn waves-effect amber black-text"
                     @click="isDisplay = true"> {{ editMode ? 'Update Template' : 'Create Template'}} </button>
@@ -13,8 +14,7 @@
 
         <div class="template__canvas" id="gjs">
         </div>
-
-    </grid-layout>
+    </div>
 </template>
 
 <script>
@@ -128,15 +128,9 @@ export default {
                 display: block !important
             }    
         }
-        input{
-                height: 1rem;
-                border-bottom: none;
-                padding: .5rem;
-                display: flex;
-                align-items: center;
-        }
+        
 
-    }    
+    }  
 
     .gjs-one-bg{
         background-color: #373d49

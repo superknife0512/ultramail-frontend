@@ -163,9 +163,10 @@ export default {
 
 <style lang="scss">
 .gift{
+    grid-column: 2/13;
+    background-color: #edf6f4;
     .edit-prev{
-            padding: 3rem;
-            background-color: white;
+            padding: 5rem;
             grid-column: 5/12;
             margin: 1rem;
             display: flex;
@@ -173,6 +174,7 @@ export default {
             align-items: center;
             justify-content: center;
             margin-bottom: 2rem;
+            border: 0;
 
             @media screen and (max-width:600px) {
                 padding: 1rem;

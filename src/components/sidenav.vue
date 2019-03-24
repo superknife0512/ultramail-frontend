@@ -128,7 +128,7 @@ export default {
             return this.$store.state.userId
         },
         isAdmin(){
-            return this.$store.state.userId === '5c8f5280cecd5524d8e7fc4c';
+            return this.$store.state.userId === '5c9614fb2206af03f417171c';
         }
     },
 }

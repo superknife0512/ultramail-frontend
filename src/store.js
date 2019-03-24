@@ -67,6 +67,10 @@ export default new Vuex.Store({
 
     setEditTemplate(state, templateId){
       state.editedTemplateId = templateId
+    },
+
+    updateAvatar(state, avatar){
+      state.userData.avatarUrl = avatar;
     }
     
   },

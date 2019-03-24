@@ -127,12 +127,17 @@ export default {
                 return resp.json();
             }).then(resData=>{
                 this.isLoading = false;
-                this.$store.state.signupUserId = resData.userId;
-                // save userId and expire time 5 minutes
-                localStorage.setItem('signupId', resData.userId);
-                localStorage.setItem('expiryId', expireDate);
-                this.$router.push('/auth/sucess');
+                if(resData.status === 'success'){
+                    this.$store.state.signupUserId = resData.userId;
+                    // save userId and expire time 5 minutes
+                    localStorage.setItem('signupId', resData.userId);
+                    localStorage.setItem('expiryId', expireDate);
+                    this.$router.push('/auth/sucess');
+                } else {
+                    this.firePopup('error', 'Lỗi từ server', resData.msg)
+                }
             }).catch(err=>{
+                this.firePopup('error', 'Lỗi từ server', err.err)
                 throw err
             })
         },

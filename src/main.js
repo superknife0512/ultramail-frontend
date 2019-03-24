@@ -5,6 +5,7 @@ import router from './router'
 import VueSweetalert2 from 'vue-sweetalert2'
 import {Slider} from 'vue-color';
 import grapesjs from 'grapesjs';
+import Chart from 'chart.js'
 // import jquery from 'jquery';
 
 import {firePopup} from './mixins/swalPopup.js'
@@ -29,6 +30,7 @@ Vue.component('slider-picker',Slider)
 Vue.component('v-loader',loader)
 
 Object.defineProperty(Vue.prototype, '$grapesjs', {value: grapesjs});
+Object.defineProperty(Vue.prototype, '$Chart', {value: Chart});
 // Object.defineProperty(Vue.prototype, '$', {value: jquery})
 
 Vue.mixin(firePopup);

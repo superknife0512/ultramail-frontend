@@ -2,13 +2,13 @@
   <div class="navbar-fixed">
 
     <nav>
-      <div class="nav-wrapper white ">
+      <div class="nav-wrapper grey darken-3 ">
         <div class="container">
-            <i class="material-icons left cyan-text darken-2 resp-icon"
+            <i class="material-icons left orange-text text-lighten-4 resp-icon"
               @click="activeSideMenu()">
               menu
             </i>
-          <router-link to="/" tag="a" class="brand-logo cyan-text text-darken-3">
+          <router-link to="/" tag="a" class="brand-logo red-text text-lighten-3">
             Ultra Mail
           </router-link>
           <ul id="nav-mobile " class=" right hide-on-med-and-down">
@@ -17,7 +17,7 @@
                           to="/auth/login" 
                           exact exact-active-class="active"
                           v-if="!isLogin">
-              <a class="nav__link grey-text text-darken-3">
+              <a class="nav__link grey-text text-lighten-3">
                 <i class="material-icons left">account_box</i> 
               Đăng nhập</a>
             </router-link>
@@ -27,13 +27,13 @@
                           exact exact-active-class="active"
                           v-if="!isLogin">
 
-              <a class="nav__link cyan-text text-darken-2">
+              <a class="nav__link orange-text text-lighten-3">
                 <i class="material-icons left">account_circle</i>
               Đăng kí</a>
             </router-link>
 
             <li v-if="isLogin" @click="logout">
-              <a class="nav__link white-text cyan ">
+              <a class="nav__link grey-text text-darken-4 amber lighten-1 ">
                 <i class="material-icons left">exit_to_app</i>
                 Thoát 
               </a>
@@ -55,14 +55,21 @@
 
     ul{
       li.active{
-        background-color: #e0f7fa;
-        color: #333;
+        background-color: #ffc400;
+        .nav__link{
+          &:link, &:visited{
+            color: rgb(31, 31, 31) !important; 
+          }
+        }
       }
     }
   }
   .resp-icon{
     padding: 0 1rem;
     cursor: pointer;
+    @media screen and (min-width: 900px) {
+      display: none !important;
+    }
   }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="container card__body">
+    <div class="card__body">
         <v-loader v-if="isLoading"></v-loader>
         <div class="row" v-if="!isLoading">
             <div class="col s12 m2 l3" 

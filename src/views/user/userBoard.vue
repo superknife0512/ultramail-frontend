@@ -1,138 +1,110 @@
 <template>
-    <div class="container">
+    <div class="dashboard">
+
         <expiration-msg v-if="remainingDate === 0">
             Thời hạn sử dụng của tài khoảng này đã hết, hãy nhanh chóng liên hệ
             với chúng tôi để gia hạn tài khoảng!
         </expiration-msg>
-        <upload-img :popupActive="popupActive"
-                    @deactivePopup="popupActive = false"
-                    @success="successHandler($event)"></upload-img>
+        
         
         <password-change :popupActive="passChangePopup"
                             @closePassChange="passChangePopup=false"></password-change>
-
-        <div class="user">
-            <h4 class="user__wel cyan-text">
-                Xin chào {{ userData.name }}, bạn sẽ gửi email gì hôm nay?
-            </h4>
-            <div class="user__info">
-                <div class="user__left">
-                    <img :src="avatar" alt="user" class="user__img">
-
-                    <i class="material-icons user__edit-img"
-                        v-tooltip="'Chỉnh sửa ảnh'"
-                        @click="activePopup">create</i>
-                        
-                </div>
-                <div class="user__right">
-                    <div class="user__info-gr">
-                        <h6>Email</h6>
-                        <h5>{{ userData.email }}</h5>
-                    </div>
-
-                    <div class="user__info-gr">
-                        <h6>Tham gia ngày</h6>
-                        <h5>{{ userData.createdAt | dateFilter }}</h5>
-                    </div>
-
-                    <button class="btn user__btn waves-effect waves-light amber grey-text text-darken-3"
-                            @click="passChangePopup= true">
-                        <i class="material-icons left">lock</i>
-                        Đổi mật khẩu
-                    </button>
-                </div>
-            </div>
-
-            <float-down appear>
-                <div class="user__account z-depth-3">
-
-                    <div class="user__acc-left">
-                        <!-- basic: cyan, standard: yellow, premiun: red -->
-                        <h5 class="user__type">
-                            Loại tài khoảng hiện tại: 
-                            <span class="z-depth-2" :class="color">
-                                {{userData.userLevel}}
-                            </span>
-                        </h5>
-                        <h6 class="user__exp">
-                            Thời hạn sử dụng đến ngày:
-                            <span>
-                                {{ userData.expirationDate | dateFilter }}
-                            </span>
-                        </h6>
-                        <h6 class="user__exp">
-                            Thời gian còn lại: 
-                            <span>
-                                {{ remainingDate }} ngày
-                            </span>
-                        </h6>
-                    </div>
-                    <div class="user__acc-right">
-                        <div class="user__acc--info">
-                            <i class="material-icons email">email</i>
-                            <h6>Tổng cộng có <span class="cyan-text text-darken-3">{{ userData.emailSends }}</span> emails đã gửi</h6> 
-                        </div>
-                        <div class="user__acc--info ">
-                            <i class="material-icons contact">supervisor_account</i>
-                            <h6>Tổng cộng tài khoảng có <span class="amber-text text-darken-3">{{ userData.studentContacts | lengthFilter }}</span> contacts</h6> 
-                        </div>
-                    </div>
-
-                    <div class="user__acc-bottom">
-                        <h5>Nâng cấp tài khoảng ?</h5>
-                        <p>Bạn đã mua mã kích hoạt trước đó thì bạn có thể kích hoạt ngay tại đây</p>
-                        <div class="user__acc-inp">
-                            <input v-model="code" type="text" placeholder="Mã kích hoạt" />
-                            <submit-btn :isLoading="isActivating"
-                                        :disableCon="!code"
-                                        @onSubmit="activateLicense">
-                                Kích hoạt tài khoảng
-                            </submit-btn>
-                        </div>
-                    </div>
-                </div>
-                
-            </float-down>
-            
-        </div>
-        <br>
         
-        <div class="contacts">
-            <h4 class="cyan-text"> Danh sách contact </h4>
-                <table class="striped responsive-table centered">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Ngày nhận</th>
-                            <th>Xóa contact</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr v-for="contact in userData.studentContacts" :key="contact.email">
-                            <td>{{contact.name}}</td>
-                            <td>{{contact.email}}</td>
-                            <td>{{contact.createdAt | dateFilter}}</td>
-                            <td>
-                                <button class="btn waves-effect waves-light red"
-                                        @click="deleteContact(contact._id)">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
+        <div class="overview">
+            <div class="overview__wel">
+                <h6>Xin chào {{ userData.name }} đã quay trở lại</h6>
+                <i class="material-icons overview__name">check_circle</i>
             </div>
-            <br><br>  
+            <div>
+                <button class="btn waves-effect black-text light-effect amber overview__pass">
+                    <i class="material-icons left black-text">lock_open</i>
+                    Đổi mật khẩu
+                </button>
+            </div>
+        </div>
+
+        <div class="section-1">
+
+            <div class="static-1st z-depth-1">
+                <v-loader v-if="!userData.name"></v-loader>
+                <div class="static-1st__chart--body" v-if="userData.name">
+                    <pie-chart class="static-1st__chart"></pie-chart>
+                   
+                </div>
+                <div class="static-1st__chart-info" v-if="userData.name">
+                    <p>Biểu đồ thể hiện số lượt click trên email chỉ cho bạn biết bằng
+                        tỉ lệ mà người nhận click vào thư của bạn trên tổng số email mà bạn 
+                        đã gửi đi. Từ đó đưa ra các nhận định phù hợp với chiến dịch
+                        marketing mình đề ra.
+                    </p>
+                    <h6>Lượt click mail: <b class="static-1st__chart-click">{{ userData.clicks }}</b></h6>
+                    <h6>Lượt gửi mail: <b class="static-1st__chart-send">{{ userData.emailSends }}</b> </h6>
+                </div>
+            </div>
+            
+            <div class="account z-depth-1">
+                <h5 class="account__title">Thông tin tài khoảng </h5>
+
+                <v-loader v-if="!userData.name"></v-loader>
+                <div class="account__detail" v-if="userData.name">
+                    <h6 class="account__budget">
+                        Tổng tiền đã dùng: <b>{{ userData.budget }}</b> VND
+                    </h6>
+
+                     <h6 class="account__date">
+                        Thời gian sử dụng đến ngày: <b>{{ userData.expirationDate | dateFilter }}</b> 
+                    </h6>
+
+                    <h6 class="account__remain">
+                        Thời gian còn lại: <b>{{ remainingDate }} ngày</b> 
+                    </h6>
+                </div>
+
+                <div class="account__update" v-if="userData.name">
+                    <h6>Nâng cấp tài khoảng:</h6>
+                    <input type="text" v-model="code" placeholder="Mã kích hoạt">
+                    <submit-btn :isLoading="isActivating"
+                                :disableCon="!code"
+                                @onSubmit="activateLicense"
+                                class="submitBtn">
+                        Nâng cấp tài khoảng
+                    </submit-btn>
+                </div>
+
+                <span class="account__badge z-depth-2" v-if="userData.name">
+                    <b>Free</b> 
+                    miễn phí
+                </span>
+            </div>
+
+        </div>
+
+        <div class="static-2nd z-depth-1">
+            <v-loader v-if="!dataSet._id"></v-loader>
+            <div class="static-2nd__chart" v-if="dataSet._id">
+                <line-chart :datasets="dataSet"></line-chart>
+            </div>
+            <div class="static-2nd__info" v-if="userData._id">
+                <p>
+                    Là số lượt mà các bạn chia sẻ trang quà tặng của mình
+                    cho mọi người đăng kí và tải về ebook, số lượt tải được thu 
+                    thập theo từng ngày, dựa vào đó bạn có thể điều chỉnh phù hợp
+                </p>
+                <h6>
+                    Trung bình có: {{ avarage }} lượt clicks
+                </h6>
+            </div>
+        </div>
+
     </div>
+
+        
 </template>
 
 <script>
-import floatDown from '../../components/transition/floatDown'
-import uploadImg from '../../components/popups/uploadImg'
 import passwordChange from '../../components/popups/passwordChange'
+import pieChart from './chart/pie.vue'
+import lineChart from './chart/line'
 export default {
     props: ['userId'],
     //type, title, text, footer
@@ -147,6 +119,7 @@ export default {
             popupActive: false,
             passChangePopup: false,
             isActivating: false,
+            dataSet: '',
         }
     },
 
@@ -162,6 +135,15 @@ export default {
             }
             return 0;
         },
+        
+        avarage(){
+            const arr = this.dataSet.dataCollection;
+            const sum = arr.reduce((a,b)=>{
+                return a + b;
+            })    
+            return (sum/arr.length).toFixed(2);
+        },
+
         color(){
             if(this.userData.userLevel){
                 return {
@@ -198,10 +180,6 @@ export default {
         activePopup(){
             this.popupActive = true
         },
-        successHandler(avatar){
-            this.userData.avatarUrl = avatar;
-            this.initialize();
-        },
         initialize(){
             fetch(`${process.env.VUE_APP_PORT}/userDash/${this.userId}`,{
                 headers:{
@@ -214,6 +192,7 @@ export default {
                         return this.firePopup('error', 'Phát hiện lỗi', resData.msg)
                     }
                     this.userData = resData.user;
+                    this.dataSet = resData.userData;
                     this.$store.commit('createUserData', resData.user)
                 }).catch(err=>{
                     throw err
@@ -266,239 +245,214 @@ export default {
                 this.firePopup('error', 'Có lỗi server', err.err.msg);
                 throw err
             })
-        }
+        },
     },
     components:{
-        floatDown,
-        uploadImg,
-        passwordChange
+        passwordChange,
+        pieChart,
+        lineChart
     }
 }
 </script>
 
 <style lang="scss">
-    .user{
+    %shadow {
+         box-shadow: 6px 6px 29px -10px rgba(0,0,0,0.57);
+    }
+    .submitBtn{
+        margin-top: 1rem;
+    }
+    .container{        
+        grid-column: 3/11;
+        @media screen and (max-width: 600px){             
+                grid-column: 1/13;
+            }
+    }
+    
+    .dashboard{
+        background-color: #edf6f4;
+        width: 100%;
+        grid-column: 2/13;
+    }
+
+    .overview{
+        background-color: #f1f1f1;
         display: flex;
-        flex-direction: column;
         align-items: center;
+        justify-content: space-between;
+        height: 8rem;
+        padding: 0 5rem;
+        width: 100%;
 
         &__wel{
-            font-size: 2rem;
-            font-weight: 600;
-            margin-top: 5rem;
-            margin-bottom: 6rem;
-            text-align: center;
-        }
-
-        &__img{
-            height: 14rem;
-            width: 14rem;
-            border-radius: .7rem;
-            object-fit: cover
-        }
-
-        &__info{
+            color: #444;
             display: flex;
-            justify-content: space-between;
-            &-gr{
-                &:not(:first-child){
-                    margin-top: 2rem;
-                }
-                
-            }
-            @media screen and (max-width: 600px){             
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
+            align-items: center;
+            h6{
+                margin: 0;
+                font-size: 1.4rem;
             }
         }
-        &__left{
-            margin-right: 5rem;
-            position: relative;
-            @media screen and (max-width: 600px){             
-                margin-right: 0;
-                margin-bottom: 2rem;
-            }
+        &__name{
+            color: #19c794;
+            margin-left: 1rem;   
+            font-size: 1.8rem;         
         }
-        &__right{
-            @media screen and (max-width: 600px){             
+        &__pass{
+
+        }
+    }
+
+    .section-1{
+        margin: 2rem 5rem;
+        margin-top: 3rem;
+        display: flex;        
+    }
+
+    .static-1st{
+        height: auto;
+        background-color: white;
+        margin-right: 1rem;
+        flex: 6;
+        padding: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all .5s;
+        &__title{
+            color: #fa6639;
+            font-weight: 100;
+            text-transform: uppercase
+        }
+        &:hover{
+            @extend %shadow;
+        }
+
+        &__chart{
+            height: 30rem;
+            width: 30rem;
+            &--body{
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-            }
-            h5{
-                color: #333;
-                margin: 0;
-            }
-            h6{
-                color: #666;
-                
+                h6{
+                    color: rgb(90, 90, 90);
+                    margin-top: 1rem;
+                    font-weight: 100;
+                }
             }
         }
-        &__btn{
-            margin-top: 2rem;
-        }
-        &__edit-img{
-            position: absolute;
-            bottom: .8rem;
-            right: .8rem;
-            font-size: 2rem;
-            color: rgb(240, 240, 240);
-            cursor: pointer;
-            height: 3rem;
-            width: 3rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: solid 1px rgb(216, 216, 216);
-            border-radius: 3px;
-            
-        }
-
-        // for account section ********************************
-        &__account{
-            margin: 3rem 0;
-            padding: 4rem 0rem;
-            width: 65rem;
-            display: grid;
-            grid-template-columns: repeat(2,1fr);
-            grid-template-rows: repeat(2,auto);
-            grid-gap: 3rem;
-            padding-bottom: 0;
-            border-top: 6px solid rgb(20, 189, 211);
-            margin-bottom: 0;
-            @media screen and (max-width: 965px){
-                grid-template-rows: repeat(3,auto);
-                width: auto
-            }
-        }
-        &__acc-left{
-            padding-left: 2rem;
-            @media screen and (max-width: 965px){
-                grid-column: 1/3;
-                grid-row: 1/2;
-            }
-        }
-        &__type{
-            color: #444;
+        &__chart-info{
+            padding: 2rem;
             font-size: 1.3rem;
-            text-transform: uppercase;
-            margin-top: 0;
-            span{
-                color: rgb(255, 251, 234);
-                background-color: rgb(0, 168, 98);
-                padding: .5rem 1.5rem;
-                text-transform: uppercase;
-                border-radius: 5px;
-                font-style: italic;
-                margin-left: .3rem;
-                display: inline-block;
-                @media screen and (max-width: 600px){
-                    margin-top: .3rem;
-                }
-            }
-        }
+            font-weight: 400;
 
-        &__exp{
-            margin-top: 2.5rem;
-            color: #444;
-            span{
-                color: rgb(255, 0, 13);
-                text-transform: uppercase;
-                font-size: 1.2rem;  
-                font-weight: 500;
-                margin-left: .7rem;              
-            }
-        }
-
-        &__acc-right{
-            padding: 0 2rem;
-            width: 200%;
-            @media screen and (max-width: 965px){             
-                grid-row: 2/3;
-            }
-            @media screen and (max-width: 400px){             
-                width: 190%;
-            }
-        }
-        &__acc--info{
-            display: flex;
-            align-items: center;
-            &:not(:last-child){
-                margin-bottom: 1.5rem;
-            }
-            h6{
-                margin: 0;
-                @media screen and (max-width: 965px){
-                    // flex: 5;
-                }
-            }
-            i{
-                margin-right: 1.3rem;    
-                font-size: 2.2rem;
-                height: 3.5rem;
-                width: 3.5rem;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border-radius: 50%;
-                border: solid 2px rgba(0, 141, 177,.4);  
-                @media screen and (max-width: 965px){
-                    // flex: 1         
-                } 
-            }
-            .email{
-                color: rgb(116, 239, 255)
-            }
-            .contact{
-                color: rgb(255, 205, 130);
-            }
-            span{
-                font-size: 1.6rem
-            }
-        }
-        &__acc-bottom{
-            grid-column: 1/3;
-            padding: 2rem 0;
-            background-color: #f3f3f3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 2rem;
-            h5{
-                text-transform: uppercase;
-                color: rgb(0, 124, 182);
-                @media screen and (max-width: 965px){
-                    font-size: 1.3rem
-                }
-            }
             p{
-                margin-bottom: 2rem;
-                text-align: center;
+                color: #555;
+            }
+
+            h6{
+                b{
+                    font-size: 1.55rem;
+                    font-weight: 500;
+                    margin-left: 0.5rem;
+                }
             }
         }
-        &__acc-inp{
-            width: 80%;
+        &__chart-click{
+            color: #46b7a0
+        }
+        &__chart-send{
+            color: #ff758c
+        }
+    }
+
+    .account{
+        flex: 4;
+        background-color: white;
+        margin-left: 1rem;
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        transition: all .3s;
+
+        &:hover{
+            box-shadow: 6px 6px 29px -10px rgba(0,0,0,0.57);
+        }
+
+        &__title{
+            font-size: 2rem;
+            color: #fa6639;
+            text-transform: uppercase
+        }
+        &__detail{
+            margin-top: 2.5rem;
+            h6{
+                font-size: 1.2rem;
+                margin-bottom: 2rem;
+            }
+            
+            b{
+                font-size: 1.7rem;
+                font-weight: 400
+            }
+        }
+        &__date{
+
+        }
+        &__budget{
+            b{
+                font-size: 1.9rem;
+                color:#f54d63;                
+            }
+        }
+        &__update{
+            margin-top: 2rem;
+            h6{
+                color: #f5b33a;
+                font-size: 1.5rem;
+                text-transform: uppercase;
+            }
+        }
+        &__badge{
+            position: absolute;
+            background-image: linear-gradient(180deg, #15c4ac, #00fd42);
+            width: 7.6rem;
+            height: 7.6rem;
             display: flex;
             flex-direction: column;
+            text-transform: uppercase;
             justify-content: center;
-            input{
-                margin-bottom: 2rem !important;
-                background-color: white !important;
-                padding-left: 1.4rem !important;
-            }
-            button{
-                align-self: center;
+            align-items: center;
+            border-radius: 50%;
+            color: white;
+            right: -2rem;
+            top: -2rem;
+            text-align: center;
+
+            b{
+                font-size: 1.8rem;
             }
         }
     }
-    .contacts{
+
+    .static-2nd{
+        height: auto;
+        padding: 2.5rem;
+        background-color: white;
+        margin: 0 5rem;
+        margin-bottom: 4rem;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 2rem;
-        h4{
-            margin-bottom: 3rem;
+        &__chart{
+            width: 60%;
+            margin-right: 2rem;
+        }
+        &__info{
+            flex: 4;
+            margin-top: 3rem;
+            font-size: 1.2rem;
         }
     }
     

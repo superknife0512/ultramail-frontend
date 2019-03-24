@@ -12,3 +12,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .home{
+    grid-column: 2/12;
+    margin-top: 5rem;
+  }
+</style>
+

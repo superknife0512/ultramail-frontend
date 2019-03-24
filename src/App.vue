@@ -1,15 +1,20 @@
 <template>
   <div id="app">
-    <nav-bar @activeSideMenu="isActive = true"></nav-bar>      
-    <side-nav :isActive="isActive" 
-              @deActiveSidenav="isActive = false"></side-nav>
-    <router-view/>
+    <grid-layout>
+      <nav-bar @activeSideMenu="isActive = true" v-if="!isLogin"></nav-bar>      
+      <side-nav :isActive="isActive" 
+                @deActiveSidenav="isActive = false"></side-nav>
+      <side-bar class="grid-nav" v-if="isLogin" @activeNav="isActive = true"></side-bar>
+      <!-- <div class="grid-nav" style="background: #edf6f4; height: 100vh" v-if="!isLogin"></div> -->
+      <router-view/>
+    </grid-layout>
   </div>
 </template>
 
 <script>
 import navBar from './components/navbar'
 import sideNav from './components/sidenav'
+import sideBar from './components/sidebar'
 export default {  
   created(){
     this.expiryId = localStorage.getItem('expiryId') || 0;
@@ -46,7 +51,8 @@ export default {
 
   components:{
     navBar,
-    sideNav
+    sideNav,
+    sideBar
   },
 
   methods:{
@@ -63,7 +69,9 @@ export default {
     }
   },
   computed: {
-    
+    isLogin(){
+      return this.$store.state.isLogin
+    }
   },
 }
 </script>
@@ -73,4 +81,13 @@ export default {
   $color-primary: #0097a7;
   $color-background: #ffe3e5;
   $color-secondary: #5a2669;
+
+  .grid-nav{
+    grid-column: 1/2;
+    grid-row: 1/-1;
+  }
+
+  #app{
+    background-color: #edf6f4
+  }
 </style>
