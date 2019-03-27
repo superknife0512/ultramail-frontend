@@ -5,7 +5,7 @@
                     @success="successHandler($event)"></upload-img>
         <div class="sidebar__logo">
             <h5>Ultra-mail</h5>
-            <a href="#" class="sidebar__icon--resp" >
+            <a href="#" class="sidebar__icon--resp" @click="activeNav" >
                 <svg class="sidebar__icon">
                     <use xlink:href="../assets/icons.svg#icon-grid"></use>
                 </svg>
@@ -28,6 +28,16 @@
             <p>Dashboard</p>
         </router-link>
 
+        
+        <router-link tag="div" :to="`/user/${userId}/contact`" class="sidebar__item"
+                    exact
+                    exact-active-class="sidebar--active">
+            <svg class="sidebar__icon">
+                <use xlink:href="../assets/icons.svg#icon-users"></use>
+            </svg>
+            <p>Contact</p>
+        </router-link>
+
         <router-link tag="div" :to="`/user/${userId}/create-email`" class="sidebar__item"
                     exact
                     exact-active-class="sidebar--active">
@@ -37,22 +47,13 @@
             <p>Gift page</p>
         </router-link>
 
-        <router-link tag="div" to="/" class="sidebar__item"
+        <router-link tag="div" to="/campaign" class="sidebar__item"
                     exact
                     exact-active-class="sidebar--active">
             <svg class="sidebar__icon">
                 <use xlink:href="../assets/icons.svg#icon-flag"></use>
             </svg>
             <p>Marketing <br> campaign</p>
-        </router-link>
-
-        <router-link tag="div" to="/" class="sidebar__item"
-                    exact
-                    exact-active-class="sidebar--active">
-            <svg class="sidebar__icon">
-                <use xlink:href="../assets/icons.svg#icon-users"></use>
-            </svg>
-            <p>Contact</p>
         </router-link>
 
         <router-link tag="div" to="/admin" class="sidebar__item"
@@ -113,11 +114,11 @@ export default {
 
 
 <style lang="scss">
-    $color-primary: #f4dc92;
+    $color-primary: #65ffff;
     $color-secondary: #fe3f7e;
 
     .sidebar--active{
-        background-color: #edf6f4;
+        background-color: #f3f3f3;
         width: 100% !important;
         border: none;
         p{
@@ -138,14 +139,23 @@ export default {
         align-items: center;
         min-height: 100vh;
         position: sticky;
+        z-index: 200;
+        @media screen and (max-width: 667px) {
+            flex-direction: row;
+            min-height: 8rem;
+            justify-content: space-around;
+        } 
 
         &__logo{
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 1.8rem 0;
-            color: #ff9100;
+            color: #2bf8ff;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            @media screen and (max-width: 667px) {
+                border-bottom: 0 solid #000;
+            } 
         }
         &__face{
             padding: 1.8rem 0;
@@ -155,6 +165,9 @@ export default {
             flex-direction: column;
             align-items: center;
             cursor: pointer;
+            @media screen and (max-width: 667px) {
+                width: auto;
+            } 
             &--img{
                 
                 height: 5.5rem;
@@ -173,6 +186,9 @@ export default {
             cursor: pointer;
             width: 85%;
             transition: all .2s;
+            @media screen and (max-width: 667px) {
+               display: none;
+            } 
             &:not(:last-child){
                 border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             }

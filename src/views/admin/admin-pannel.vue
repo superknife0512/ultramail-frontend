@@ -65,7 +65,7 @@ export default {
 
 <style lang="scss">
     .grid-center{
-        grid-column: 3/11;
+        grid-column: 3/12;
     }
     .tab{
         margin-top: 3rem;

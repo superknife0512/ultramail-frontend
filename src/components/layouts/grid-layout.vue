@@ -9,6 +9,9 @@
         display: grid;
         grid-template-columns: minmax(10rem, 1fr) repeat(10, minmax(max-content,1fr)) minmax(1rem, 1fr);
         grid-template-rows: auto;
+        @media screen and (max-width: 667px) {
+               grid-template-columns: minmax(1rem, 1fr) repeat(10, minmax(max-content,1fr)) minmax(1rem, 1fr);
+        }
     }
 </style>
 

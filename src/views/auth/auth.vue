@@ -19,7 +19,7 @@ export default {
 <style lang="scss">
     .auth-wrapper{
         grid-column: 1/13;
-        background-image: url('../../assets/auth-page.jpg');
+        background-color: #cad9da;
         background-position: center;
         background-size: cover;
         height: 94vh;

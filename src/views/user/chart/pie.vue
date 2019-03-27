@@ -22,7 +22,7 @@ export default {
                     labels: ['Clicks', 'Dont Clicks'],
                     datasets: [{
                         label: 'Tỉ lệ click trên tỉ lệ bỏ qua',
-                        backgroundColor: ['#46b7a0', '#f68389'],
+                        backgroundColor: ['#51d7e9', '#7751b3'],
                         borderColor: 'white',
                         borderWidth: '7',
                         data: [ this.clickPercent, this.noneClickPer]
@@ -62,6 +62,9 @@ export default {
 
 
 <style lang="scss">
-
+    .cax{
+        color: #51d7e9;
+        background-color: #7751b3
+    }
 </style>
 

@@ -43,7 +43,7 @@ export default {
             options: {
                 title:{
                     display: true,
-                    text: 'Số lượt click tải về các phần quà trong 7 ngày gần nhất',
+                    text: 'Số lượt tải về các phần quà trong 7 ngày gần nhất',
                     fontSize: '18'
                 }
             }
@@ -52,9 +52,15 @@ export default {
 
     computed: {
         dataArr(){
+            let maxLength;
             if(this.datasets){
                 let data = this.datasets.dataCollection;
-                let newData = data.slice(data.length - 7,data.length);
+                if(data.length < 7) {
+                    maxLength = data.length
+                } else {
+                    maxLength = 7
+                }
+                let newData = data.slice(data.length - maxLength,data.length);
                 return newData;
             }
             return false;

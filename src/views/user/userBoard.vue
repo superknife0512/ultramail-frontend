@@ -1,22 +1,16 @@
 <template>
     <div class="dashboard">
-
-        <expiration-msg v-if="remainingDate === 0">
-            Thời hạn sử dụng của tài khoảng này đã hết, hãy nhanh chóng liên hệ
-            với chúng tôi để gia hạn tài khoảng!
-        </expiration-msg>
-        
-        
-        <password-change :popupActive="passChangePopup"
-                            @closePassChange="passChangePopup=false"></password-change>
-        
         <div class="overview">
             <div class="overview__wel">
                 <h6>Xin chào {{ userData.name }} đã quay trở lại</h6>
-                <i class="material-icons overview__name">check_circle</i>
+                <i class="material-icons overview__name" 
+                    :class="{'red-text' : isNearExpire}">                    
+                    {{ isNearExpire ? 'info' : 'check_circle'}}
+                </i>
             </div>
             <div>
-                <button class="btn waves-effect black-text light-effect amber overview__pass">
+                <button class="btn waves-effect black-text light-effect amber overview__pass"
+                        @click="passChangePopup = true">
                     <i class="material-icons left black-text">lock_open</i>
                     Đổi mật khẩu
                 </button>
@@ -48,7 +42,7 @@
                 <v-loader v-if="!userData.name"></v-loader>
                 <div class="account__detail" v-if="userData.name">
                     <h6 class="account__budget">
-                        Tổng tiền đã dùng: <b>{{ userData.budget }}</b> VND
+                        Tổng tiền đã dùng: <b>{{ userData.budget | priceFilter }}</b> VND
                     </h6>
 
                      <h6 class="account__date">
@@ -71,9 +65,10 @@
                     </submit-btn>
                 </div>
 
-                <span class="account__badge z-depth-2" v-if="userData.name">
-                    <b>Free</b> 
-                    miễn phí
+                <span class="account__badge z-depth-2" v-if="userData.name"
+                        :style="userLevelColor">
+                    <b>{{ userData.userLevel }}</b> 
+                    {{ transUserLevel }}
                 </span>
             </div>
 
@@ -91,10 +86,18 @@
                     thập theo từng ngày, dựa vào đó bạn có thể điều chỉnh phù hợp
                 </p>
                 <h6>
-                    Trung bình có: {{ avarage }} lượt clicks
+                    Trung bình có: <b>{{ average }}</b>  lượt tải
                 </h6>
             </div>
         </div>
+        <expiration-msg v-if="remainingDate === 0">
+            Thời hạn sử dụng của tài khoảng này đã hết, hãy nhanh chóng liên hệ
+            với chúng tôi để gia hạn tài khoảng!
+        </expiration-msg>
+        
+        
+        <password-change :popupActive="passChangePopup"
+                            @closePassChange="passChangePopup=false"></password-change>
 
     </div>
 
@@ -136,7 +139,7 @@ export default {
             return 0;
         },
         
-        avarage(){
+        average(){
             const arr = this.dataSet.dataCollection;
             const sum = arr.reduce((a,b)=>{
                 return a + b;
@@ -144,24 +147,65 @@ export default {
             return (sum/arr.length).toFixed(2);
         },
 
-        color(){
-            if(this.userData.userLevel){
-                return {
-                    'cyan darken-1' : this.userData.userLevel === 'basic',
-                    'amber darken-1' : this.userData.userLevel === 'standard',
-                    'deep- orange darken-1' : this.userData.userLevel === 'premium',
-                    'red darken-1' : this.userData.userLevel === 'enterprise',
-                }
+        isNearExpire(){
+            if(this.remainingDate < 5){
+                return true
             }
-            return false;
+            return false
         },
+
         avatar(){
             if(!this.userData.avatarUrl){
                 return `${process.env.VUE_APP_PORT}/public/images/user.png`
             } else {
                 return `${process.env.VUE_APP_PORT}/`+ this.userData.avatarUrl
             }
-        }
+        },
+
+        transUserLevel(){
+            let userLevel = this.userData.userLevel;
+            let translate ;
+            switch (userLevel){
+                case 'free':
+                    translate = 'Miễn phí';
+                    break;
+                case 'basic' :
+                    translate = 'Cơ bản';
+                    break;
+                case 'standard' :
+                    translate = 'Tiêu chuẩn';
+                    break;
+                case 'premium' :
+                    translate = 'Chuyên nghiệp';
+                    break;
+                case 'enterprise' :
+                    translate = 'Doanh nghiệp';
+                    break;
+            }
+            return translate;
+        },
+
+        userLevelColor(){
+            let userLevel = this.userData.userLevel;
+            let backgroundColor ;
+
+            switch (userLevel){
+                case 'basic' :
+                    backgroundColor = `background-image: linear-gradient( 180deg, #00fff6, #1797f9)`;
+                    break;
+                case 'standard' :
+                    backgroundColor = `background-image: linear-gradient( 180deg, #00e4ff, #6217f9)`;
+                    break;
+                case 'premium' :
+                    backgroundColor = `background-image: linear-gradient( 180deg, #4e00ff, #f917d6)`;
+                    break;
+                case 'enterprise' :
+                    backgroundColor = `background-image: linear-gradient( 180deg, #ffb400, #f91762)`;
+                    break;
+            }
+            return backgroundColor
+        },
+        
     },
 
     filters:{
@@ -174,8 +218,28 @@ export default {
             if(value){
                 return value.length
             }
+        },
+        priceFilter(value){
+            value = value.toString();
+            const numArrRev = value.split('').reverse('');
+            let finalArr = [] ;
+            let count = 0;
+            
+            for(let i = 0; i< numArrRev.length; i++ ){
+                if(count < 3){
+                    count ++;
+                    finalArr.push(numArrRev[i]);
+                } else {
+                    count = 0;
+                    finalArr.push('.');
+                    i--
+                }
+            }
+
+            return finalArr.reverse().join('');
         }
     },
+    
     methods:{
         activePopup(){
             this.popupActive = true
@@ -224,28 +288,6 @@ export default {
                 throw err
             })
         },
-        deleteContact(contactId){
-            fetch(`${process.env.VUE_APP_PORT}/userDash/contact`,{
-                method: 'DELETE',
-                headers:{
-                    'content-type': 'application/json',
-                    'Authorization': 'Bearer '+this.$store.state.token
-                },
-                body: JSON.stringify({
-                    contactId: contactId,
-                })
-            }).then(resp=>{
-                return resp.json();
-            }).then(resData=>{
-                if(resData.status === 'success'){
-                    this.firePopup('success', 'Xóa thành công', resData.msg)
-                    this.initialize()
-                }
-            }).catch(err=>{
-                this.firePopup('error', 'Có lỗi server', err.err.msg);
-                throw err
-            })
-        },
     },
     components:{
         passwordChange,
@@ -264,25 +306,39 @@ export default {
     }
     .container{        
         grid-column: 3/11;
-        @media screen and (max-width: 600px){             
+        @media screen and (max-width: 667px){             
                 grid-column: 1/13;
             }
     }
     
     .dashboard{
-        background-color: #edf6f4;
+        background-color: #f3f3f3;
         width: 100%;
         grid-column: 2/13;
+        @media screen and (max-width: 600px) {
+            grid-column: 1/13
+        } 
     }
 
     .overview{
-        background-color: #f1f1f1;
+        background-color: #ecebeb;
         display: flex;
         align-items: center;
         justify-content: space-between;
         height: 8rem;
         padding: 0 5rem;
         width: 100%;
+
+        @media screen and (max-width: 1670px) {
+            padding: 0 3rem;
+        }   
+        @media screen and (max-width: 864px) {
+            flex-direction: column;
+            padding: 2rem;
+            height: auto;
+        } 
+
+        
 
         &__wel{
             color: #444;
@@ -299,14 +355,27 @@ export default {
             font-size: 1.8rem;         
         }
         &__pass{
-
+            @media screen and (max-width: 1300px) {
+                margin-top: 1.2rem;
+                margin-bottom: 1.2rem;
+            } 
         }
     }
 
     .section-1{
         margin: 2rem 5rem;
         margin-top: 3rem;
-        display: flex;        
+        display: flex;  
+        @media screen and (max-width: 1670px) {
+            margin: 2rem 3rem;
+        }  
+        @media screen and (max-width: 1565px) {
+            flex-direction: column;
+            align-items: center;
+        }     
+        @media screen and (max-width: 667px) {
+            margin: 2rem 1rem;
+        }       
     }
 
     .static-1st{
@@ -319,6 +388,15 @@ export default {
         justify-content: center;
         align-items: center;
         transition: all .5s;
+        @media screen and (max-width: 1565px) {
+            margin-bottom: 2.5rem;
+        }  
+        
+        @media screen and (max-width: 1300px) {
+            flex-direction: column;            
+            margin-right: 0;
+        } 
+
         &__title{
             color: #fa6639;
             font-weight: 100;
@@ -340,6 +418,9 @@ export default {
                     margin-top: 1rem;
                     font-weight: 100;
                 }
+                @media screen and (max-width: 667px) {
+                    width: 20rem;
+                } 
             }
         }
         &__chart-info{
@@ -349,11 +430,13 @@ export default {
 
             p{
                 color: #555;
+                font-size: 1.2rem
             }
 
             h6{
+                color: #555;
                 b{
-                    font-size: 1.55rem;
+                    font-size: 1.5rem;
                     font-weight: 500;
                     margin-left: 0.5rem;
                 }
@@ -377,6 +460,12 @@ export default {
         justify-content: center;
         position: relative;
         transition: all .3s;
+         @media screen and (max-width: 1565px) {
+            width: 100%;
+        }  
+        @media screen and (max-width: 1300px) {
+            margin-left: 0;
+        }
 
         &:hover{
             box-shadow: 6px 6px 29px -10px rgba(0,0,0,0.57);
@@ -419,11 +508,11 @@ export default {
         &__badge{
             position: absolute;
             background-image: linear-gradient(180deg, #15c4ac, #00fd42);
-            width: 7.6rem;
-            height: 7.6rem;
+            width: 8.2rem;
+            height: 8.2rem;
             display: flex;
             flex-direction: column;
-            text-transform: uppercase;
+            text-transform: capitalize;
             justify-content: center;
             align-items: center;
             border-radius: 50%;
@@ -432,8 +521,19 @@ export default {
             top: -2rem;
             text-align: center;
 
+            @media screen and (max-width: 667px) {
+                width: 7rem;
+                height: 7rem;
+                right: 0rem;
+                top: 0rem;
+            } 
+
             b{
-                font-size: 1.8rem;
+                font-size: 1.2rem;
+                text-transform: uppercase;
+                @media screen and (max-width: 667px) {
+                    display: none;
+                } 
             }
         }
     }
@@ -445,14 +545,32 @@ export default {
         margin: 0 5rem;
         margin-bottom: 4rem;
         display: flex;
+        @media screen and (max-width: 1670px) {
+            margin: 0rem 3rem;
+        } 
+        @media screen and (max-width: 1300px) {
+            flex-direction: column
+        } 
+        @media screen and (max-width: 667px) {
+            margin: 2rem 1rem;
+        } 
         &__chart{
             width: 60%;
             margin-right: 2rem;
+            @media screen and (max-width: 1300px) {
+                margin-right: 0;
+                width: 100%;
+            } 
         }
         &__info{
             flex: 4;
             margin-top: 3rem;
             font-size: 1.2rem;
+            b{
+                font-size: 1.6rem;
+                color: #f54d63;
+                font-weight: 400
+            }
         }
     }
     

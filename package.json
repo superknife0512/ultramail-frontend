@@ -12,6 +12,7 @@
     "grapesjs": "^0.14.55",
     "grapesjs-preset-newsletter": "^0.2.20",
     "jquery": "^3.3.1",
+    "materialize-css": "^1.0.0-rc.2",
     "vue": "^2.6.6",
     "vue-chartjs": "^3.4.2",
     "vue-clickaway": "^2.2.2",

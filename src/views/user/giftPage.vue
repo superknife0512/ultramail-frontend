@@ -78,7 +78,7 @@ export default {
         unlock(){
             if(this.token === this.userGift.token){
                 this.isUnlock = true;
-                fetch('http://localhost:4000/userDash/send-gift',{
+                fetch(process.env.VUE_APP_PORT+'/userDash/send-gift',{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

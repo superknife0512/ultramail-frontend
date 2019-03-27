@@ -2,7 +2,7 @@
     <div class="container page404">
         <br>
         <h3>Lỗi không tìm thấy trang!</h3>
-        <img src="../assets/search.jpg" alt="search">
+        <img src="../assets/search.png" alt="search">
         <h4>404-Page not found</h4>
         <h5>
             Chúng tôi không tìm thấy địa chỉ trang mà bạn muốn vào

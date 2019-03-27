@@ -110,6 +110,11 @@ export default new Router({
           name: 'createEmail',
           component: () => import(/* webpackChunkName: "user-group" */ './views/user/createEmail.vue'),
         },
+        {
+          path: 'contact',
+          name: 'contact',
+          component: () => import(/* webpackChunkName: "user-group" */ './views/user/contact.vue'),
+        },
       ]
     },
 

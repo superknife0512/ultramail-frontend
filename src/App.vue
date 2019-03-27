@@ -85,9 +85,13 @@ export default {
   .grid-nav{
     grid-column: 1/2;
     grid-row: 1/-1;
+    @media screen and (max-width: 667px) {
+        grid-column: 1/13;
+        grid-row: 1/2;
+    } 
   }
 
   #app{
-    background-color: #edf6f4
+    background-color: #f3f3f3
   }
 </style>

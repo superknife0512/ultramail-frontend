@@ -37,7 +37,7 @@
                                 v-if="isLogin">
                         <a>
                             <i class="material-icons pink-text text-darken-1 icon__gift left">important_devices</i> 
-                            Chiến lượt marketing
+                            Campaign
                         </a>
                     </router-link>
 

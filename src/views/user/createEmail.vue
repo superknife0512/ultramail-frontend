@@ -226,7 +226,7 @@ export default {
                 grid-column: 1/13
             }
 
-        background-color: #edf6f4;
+        background-color: #f3f3f3;
     }
     .email-editor{
         margin: 1rem;
