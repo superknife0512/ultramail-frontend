@@ -113,6 +113,7 @@ export default {
                 }
             })
             .catch(err=>{
+                this.isLoading = false;
                 this.firePopup('warning', 'Lỗi đăng nhập', 'Có lỗi không xác định đến từ server')
                 throw err
             })

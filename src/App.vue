@@ -37,6 +37,10 @@ export default {
         this.$store.dispatch('autoLogout', this.loginExpiryTime);
       }
     }
+
+    if(this.isLogin){
+      this.initialize();
+    }
   },
 
   data(){
@@ -62,6 +66,23 @@ export default {
       }, this.remainingTime);
     },
 
+    initialize(){
+            fetch(`${process.env.VUE_APP_PORT}/userDash/${this.userId}`,{
+                headers:{
+                    'Authorization': 'Bearer '+ this.$store.state.token
+                }
+            }).then(resp=>{
+                    return resp.json()
+                }).then(resData=>{
+                    if(status === 'fail'){
+                        return this.firePopup('error', 'Phát hiện lỗi', resData.msg)
+                    }
+                    this.$store.commit('createUserData', resData.user)
+                }).catch(err=>{
+                    throw err
+                })
+        },
+
     deleteHandler(){
         localStorage.removeItem('signupId');
         localStorage.removeItem('expiryId');
@@ -71,6 +92,9 @@ export default {
   computed: {
     isLogin(){
       return this.$store.state.isLogin
+    },
+    userId(){
+      return this.$store.state.userId
     }
   },
 }

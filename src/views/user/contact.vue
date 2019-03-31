@@ -5,7 +5,7 @@
             <h6>Có tổng cộng là: {{ contactList.length }} khách hàng</h6>
 
             <div class="contact__list">
-                 <table class="centered">
+                 <table class="centered responsive-table">
                     <thead>
                         <tr>
                             <th>Tên</th>

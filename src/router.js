@@ -135,7 +135,18 @@ export default new Router({
         {
           path: '/',
           name: 'campaigns',
-          component: () => import(/* webpackChunkName: "campaign-group" */ './views/Email-mar/emailCampaign.vue'),
+          component: () => import(/* webpackChunkName: "campaign-group" */ './views/Email-mar/createCampaign.vue'),
+        },
+        {
+          path: ':campaignId',
+          name: 'detail',
+          props: true,
+          component: () => import(/* webpackChunkName: "campaign-group" */ './views/Email-mar/campaignDetail.vue'),
+        },
+        {
+          path: ':campaignId/wizard',
+          name: 'wizard',
+          component: () => import(/* webpackChunkName: "campaign-group" */ './views/Email-mar/emailWizard.vue'),
         },
       ]
     },

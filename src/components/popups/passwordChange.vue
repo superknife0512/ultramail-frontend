@@ -52,9 +52,6 @@
 </template>
 
 <script>
-import submitBtn from '../button/submitBtn'
-import floatDown from '../transition/floatDown'
-import warningMsg from '../messages/warningMsg'
 import { mixin as clickaway } from 'vue-clickaway';
 export default {
     props: ['popupActive'],
@@ -70,7 +67,7 @@ export default {
     methods:{
         submit(){
             this.isLoading = true;
-            fetch('http://localhost:4000/user/update-password',{
+            fetch(`${process.env.VUE_APP_PORT}/user/update-password`,{
                 method: 'PUT',
                 headers:{
                     'Content-Type':'application/json',
@@ -102,11 +99,6 @@ export default {
                 this.activeBody=true;                
             }, 1000);
         }
-    },
-    components:{
-        submitBtn,
-        floatDown,
-        warningMsg
     },
 
     computed: {

@@ -65,7 +65,7 @@ export default {
     },
 
     created(){
-        if (this.editMode){
+        if (this.editMode == true){
             this.name = this.editedTemplate.name;
             this.desc = this.editedTemplate.desc;
         }
@@ -125,6 +125,7 @@ export default {
                         let title;
                         if(!this.editMode){
                             title= 'Tạo thành công một template'
+                            this.$emit('getTemplateId', resData.templateId)
                         } else {
                             title = 'Cập nhật thành công'
                         }

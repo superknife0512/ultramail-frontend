@@ -11,7 +11,7 @@ export const firePopup = {
             })
         },
         confirmPopup(type, title, text){
-            this.$Swal.fire({
+            this.$swal.fire({
                 title: title,
                 text: text,
                 type: type,

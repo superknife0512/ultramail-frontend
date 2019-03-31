@@ -114,7 +114,7 @@ export default {
 
 
 <style lang="scss">
-    $color-primary: #65ffff;
+    $color-primary: #e4e4e4;
     $color-secondary: #fe3f7e;
 
     .sidebar--active{

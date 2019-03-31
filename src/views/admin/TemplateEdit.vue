@@ -101,8 +101,8 @@ export default {
         setComponents(){
             const templateId = this.$store.state.editedTemplateId;
             this.editedTemplate = this.$store.getters.editedTemplate(templateId);
-            const components = JSON.parse(this.editedTemplate.components);
-            this.editor.setComponents(components);
+            const html = this.editedTemplate.html;
+            this.editor.setComponents(html);
         }
     },
 

@@ -16,8 +16,18 @@ export default new Vuex.Store({
     userRole: null,
 
     templates: [],
+    ownerTemplates: [],
     editedTemplateId: '',
     editMode: false,
+
+    automail: {
+      customTemplate: '',
+      mailName:'',
+      contacts:[],
+      subject:'',
+      from: '',
+      dateTime: '',
+    }
   },
 
   mutations: {
@@ -71,6 +81,15 @@ export default new Vuex.Store({
 
     updateAvatar(state, avatar){
       state.userData.avatarUrl = avatar;
+    },
+
+    loadUserTemplates(state, templateData){
+      state.ownerTemplates = templateData.ownerTemplate;
+      state.templates = templateData.adminTemplate
+    },
+
+    setAutomail(state, payload){
+      state.automail[payload.field] = payload.value
     }
     
   },
