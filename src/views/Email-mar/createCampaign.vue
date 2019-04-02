@@ -13,6 +13,14 @@
         <v-loader v-if="isLoading" class="loader"></v-loader>
 
         <div class="campaign-body" v-if="!isLoading">
+            <div class="campaign-body__new"
+                @click="popupActive = true" >
+                <svg class="campaign-body__new-icon">
+                    <use xlink:href="../../assets/campaign.svg#icon-plus"></use>
+                </svg>
+                <h6>Thêm mới</h6>
+            </div>
+
             <div class="campaign-body__card" v-for="(camp, i) in campaigns"
                 :key="camp._id">
                 <div class="campaign-body__card-title"
@@ -27,17 +35,11 @@
                     <router-link tag="h6" 
                                 :to="`/campaign/${camp._id}`"
                                 class="campaign-body__card-action--seen">Xem</router-link>
-                    <h6 class="campaign-body__card-action--del">Xóa</h6>
+                    <h6 class="campaign-body__card-action--del"
+                        @click="deleteCamp(camp._id)">Xóa</h6>
                 </div>
             </div>
-
-            <div class="campaign-body__new"
-                @click="popupActive = true" >
-                <svg class="campaign-body__new-icon">
-                    <use xlink:href="../../assets/campaign.svg#icon-plus"></use>
-                </svg>
-                <h6>Thêm mới</h6>
-            </div>
+            
         </div>
     </div>
 </template>
@@ -67,8 +69,8 @@ export default {
     filters:{
         stringShorter(value){
             value = value.split(' ');
-            if(value.length > 35){
-                const shortString = value.slice(0,35);
+            if(value.length > 29){
+                const shortString = value.slice(0,28);
                 return shortString.join(' ') + '...'
             }
             return value
@@ -94,6 +96,33 @@ export default {
             }).catch(err=>{
                 this.isLoading = false;
                 throw err
+            })
+        },
+        deleteCamp(campId){
+            this.$swal.fire({
+                title: 'Bạn có chắc muốn xóa không',
+                text: "Bạn sẽ không thể hoàn tác lại hành động này ",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xóa nó đi'
+                }).then((result) => {
+                if (result.value) {
+                    fetch(`${process.env.VUE_APP_PORT}/campaign/${campId}`,{
+                        method: 'DELETE',
+                        headers:{
+                            'Authorization': 'Bearer '+this.$store.state.token
+                        }
+                    }).then(resp=>{
+                        return resp.json()
+                    }).then(resData=>{
+                        if(resData.status === 'success'){
+                            this.firePopup('success', 'Xóa thành công', 'Đã xóa thành công một campaign');
+                            this.initialize();
+                        }
+                    })                    
+                }
             })
         }
     },

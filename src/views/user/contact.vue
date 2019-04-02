@@ -1,8 +1,16 @@
 <template>
     <div class="contact"> 
+        <add-contact :popupActive="popupActive"
+                    @deactivePopup="popupActive = false"
+                    @addContact="addContact($event)"></add-contact>
+
         <div class="contact__body">
             <h4 class="contact__title">Danh sách thông tin học viên</h4>
-            <h6>Có tổng cộng là: {{ contactList.length }} khách hàng</h6>
+            <h6>Có tổng cộng là: {{ contactList.length }} khách hàng</h6><br>
+            <button class="waves-effect indigo btn"
+                    @click="popupActive = true">
+                Thêm liên lạc
+            </button>
 
             <div class="contact__list">
                  <table class="centered responsive-table">
@@ -16,12 +24,12 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="contact in contactLists" :key="contact._id">
+                        <tr v-for="contact in contactList" :key="contact._id">
                             <td>{{ contact.studentName }}</td>
                             <td>{{ contact.studentEmail }}</td>
                             <td class="contact__date">{{ contact.createdAt | dateFilter }}</td>
                             <td>
-                                <button class="btn btn-small waves-effect light-effects red"
+                                <button class="btn btn-small waves-effect light-effects deep-orange"
                                         @click="deleteContact(contact._id)">
                                     Xóa liên lạc
                                 </button>
@@ -35,14 +43,17 @@
 </template>
 
 <script>
+import addContact from '../../components/popups/addContact'
 export default {
-    created(){
-        this.contactLists = this.contactList    
+
+    components:{
+        addContact
     },
 
     data() {
         return {
             contactLists: '',
+            popupActive: false,
         }   
     },
 
@@ -76,16 +87,17 @@ export default {
             }).then(resData=>{
                 if(resData.status === 'success'){
                     this.firePopup('success', 'Xóa thành công', resData.msg)
-                    const deleteIndex = this.contactLists.findIndex(contact=>{
-                        return contact._id === contactId
-                    })
-                    this.contactLists.splice(deleteIndex, 1);
+                    this.$store.commit('deleteContact', contactId)
                 }
             }).catch(err=>{
                 this.firePopup('error', 'Có lỗi server', err.err.msg);
                 throw err
             })
         },
+
+        addContact(newContact){
+            this.$store.commit('addContact', newContact)
+        }
     },
 }
 </script>

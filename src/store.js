@@ -28,6 +28,7 @@ export default new Vuex.Store({
       from: '',
       dateTime: '',
     }
+    
   },
 
   mutations: {
@@ -83,6 +84,7 @@ export default new Vuex.Store({
       state.userData.avatarUrl = avatar;
     },
 
+    // email marketing function
     loadUserTemplates(state, templateData){
       state.ownerTemplates = templateData.ownerTemplate;
       state.templates = templateData.adminTemplate
@@ -90,6 +92,19 @@ export default new Vuex.Store({
 
     setAutomail(state, payload){
       state.automail[payload.field] = payload.value
+    },
+
+    // Contact function
+    addContact(state,newContact){
+      state.userData.studentContacts = newContact;
+    },
+
+    deleteContact(state,contactId){
+      const contacts = state.userData.studentContacts
+      const index = contacts.findIndex(contact=>{
+        contact._id === contactId
+      })
+      contacts.splice(index, 1);
     }
     
   },

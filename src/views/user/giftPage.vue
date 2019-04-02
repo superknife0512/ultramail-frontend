@@ -165,6 +165,9 @@ export default {
 .gift{
     grid-column: 2/13;
     background-color: #edf6f4;
+    @media screen and (max-width:667px) {
+        grid-column: 1/13;
+    }
     .edit-prev{
             padding: 5rem;
             grid-column: 5/12;

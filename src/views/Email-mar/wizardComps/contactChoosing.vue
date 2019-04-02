@@ -30,7 +30,7 @@
                             class="validate"
                             v-model="from">
                     <label for="from">Gửi bởi ai</label>
-                    <small>Ví dụ: Ebook@yahoo.com</small>
+                    <small>Ví dụ: Ebook@sendgrid.com</small>
                 </div>
             </div>
         </form>

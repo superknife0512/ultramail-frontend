@@ -175,6 +175,12 @@ export default {
             grid-gap: 3.5rem;
             border-bottom: 1px solid rgba(0, 0, 0, .2);
             padding-bottom: 2rem;
+
+            @media screen and (max-width: 600px) {
+                grid-template-columns: repeat(auto-fit, 1fr);
+                justify-content: center;
+                grid-row-gap: 2rem;
+            }
         }
 
         .card{

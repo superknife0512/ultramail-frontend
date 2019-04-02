@@ -13,11 +13,15 @@
                     @changeStep="changeStep($event)"></v-steps>
 
             <keep-alive>
-                <component :is="isComponent"
-                            @editTemplate="isComponent = 'editTemplate'"
-                            @chooseContact="changeStep(2)"
-                            @timeSetup="changeStep(3)"
-                            ></component>
+                <float-down appear>    
+                    <component :is="isComponent"
+                                @editTemplate="isComponent = 'editTemplate'"
+                                @chooseContact="changeStep(2)"
+                                @timeSetup="changeStep(3)"
+                                @revision="revision"
+                                :campaignId ="campaignId"
+                                ></component>
+                </float-down>
             </keep-alive>
             
         </div>
@@ -32,12 +36,14 @@ import templateChoose from './wizardComps/templateChoosing'
 import editTemplate from './wizardComps/editTemplate'
 import contactChoose from './wizardComps/contactChoosing'
 import timeChoose from './wizardComps/timeChoosing'
+import revision from './wizardComps/revision'
 
 export default {
+    props: ['campaignId'],
     data(){
         return{
             stepActive: [1],
-            isComponent:  `timeChoose`,
+            isComponent:  `templateChoose`,
             automailInfo: '',
         }
     },
@@ -48,31 +54,35 @@ export default {
         templateChoose,
         editTemplate,
         contactChoose,
-        timeChoose
+        timeChoose,
+        revision
     },
     created(){
 
     },
     methods:{
         changeStep(step){
-            // if(step == 1){
-            //     this.isComponent = 'templateChoose'
-            //     this.stepActive = [1]
-            // } else if (step == 2){
-            //     if(this.checkEnough1){
-            //         this.isComponent = 'contactChoose'
-            //         this.stepActive = [1,2]
-            //     } else {
-            //         this.firePopup('warning', 'Cảnh báo','Hãy chọn template ở bước 1 trước khi tới bước 2',)
-            //     }
-            // } else if(step == 3){
-            //     if(this.checkEnough2){
-            //         this.isComponent = 'timeChoose'
-            //         this.stepActive = [1,2,3]
-            //     } else {
-            //         this.firePopup('warning', 'Cảnh báo','Bạn hãy điền đầy đủ thông tin ở bước 2 trước khi tới bước 3',)
-            //     }
-            // }
+            if(step == 1){
+                this.isComponent = 'templateChoose'
+                this.stepActive = [1]
+            } else if (step == 2){
+                if(this.checkEnough1){
+                    this.isComponent = 'contactChoose'
+                    this.stepActive = [1,2]
+                } else {
+                    this.firePopup('warning', 'Cảnh báo','Hãy chọn template ở bước 1 trước khi tới bước 2',)
+                }
+            } else if(step == 3){
+                if(this.checkEnough2){
+                    this.isComponent = 'timeChoose'
+                    this.stepActive = [1,2,3]
+                } else {
+                    this.firePopup('warning', 'Cảnh báo','Bạn hãy điền đầy đủ thông tin ở bước 2 trước khi tới bước 3',)
+                }
+            }
+        },
+        revision(){
+            this.isComponent = 'revision'
         }
     }, 
     

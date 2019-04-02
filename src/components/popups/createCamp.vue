@@ -78,7 +78,7 @@ export default {
                     'Authorization': 'Bearer '+this.$store.state.token,
                     'Content-type':'application/json',
                 },
-                body:JSON.stringify({name: this.name, desc: this.desc})
+                body:JSON.stringify({name: this.name, desc: this.desc, scale: this.scale})
             }).then(resp=> {
                 return resp.json()
             }).then(resData=>{

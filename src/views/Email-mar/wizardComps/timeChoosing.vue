@@ -13,9 +13,11 @@
                         :hasInputElement="false"></date-pick>
         </div>
         <br>
-        <button class="btn waves-effect indigo">
+        <button class="btn waves-effect indigo"
+                @click="addDate">
             Tạo email
         </button>
+        
     </div>
 </template>
 
@@ -24,6 +26,10 @@ import DatePick from 'vue-date-pick';
 import 'vue-date-pick/dist/vueDatePick.css';
 
 export default {
+    created(){
+        this.date = this.initialDate;
+    },
+
     components: {
         DatePick
     },
@@ -35,8 +41,27 @@ export default {
 
     computed:{
         calculateDate(){
-            const date = new Date(this.date);
-            return date.toISOString();
+            const date = new Date(this.date).getTime() + 7*1000*60*60;
+            return new Date(date).toISOString();
+        },
+        initialDate(){
+            const now = new Date()
+            const newDate = now.toISOString();
+            const dateArr = newDate.split('T');
+            const date = dateArr[0];
+            const time = dateArr[1].split('').slice(0,5).join('');
+            return `${date} ${time}`
+        }
+    },
+
+    methods:{
+        addDate(){
+            const payload = {
+                field: 'dateTime',
+                value: this.calculateDate
+            }
+            this.$store.commit('setAutomail', payload)
+            this.$emit('revision')
         }
     },
 

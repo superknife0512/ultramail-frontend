@@ -146,6 +146,7 @@ export default new Router({
         {
           path: ':campaignId/wizard',
           name: 'wizard',
+          props: true,
           component: () => import(/* webpackChunkName: "campaign-group" */ './views/Email-mar/emailWizard.vue'),
         },
       ]

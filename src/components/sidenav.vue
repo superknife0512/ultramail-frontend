@@ -30,6 +30,18 @@
                     </router-link>
 
                     <router-link tag="li" 
+                                :to="`/user/${userId}/contact`"
+                                class="side__item " 
+                                exact
+                                exact-active-class="active"
+                                v-if="isLogin">
+                        <a >
+                            <i class="material-icons icon__gift left indigo-text">contacts</i> 
+                            Liên hệ
+                        </a>
+                    </router-link>
+
+                    <router-link tag="li" 
                                 :to="`/campaign`"
                                 class="side__item" 
                                 exact

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="loader">
         <div class="preloader-wrapper big active">
             <div class="spinner-layer spinner-blue-only">
             <div class="circle-clipper left">
@@ -15,3 +15,10 @@
         <h6 class="cyan-text text-darken-1">Loading...</h6>
     </div>
 </template>
+
+<style lang="scss">
+    .loader{
+        margin: 1rem auto;
+    }
+</style>
+
