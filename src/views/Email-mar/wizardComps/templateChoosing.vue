@@ -59,7 +59,8 @@
                     <div class="card-action">
                         <a href="#" class="indigo-text text-darken-1"
                             @click.prevent="edit(temp._id)">Chỉnh sửa</a>
-                        <a href="#" class="red-text text-darken-1">Xóa</a>
+                        <a href="#" class="red-text text-darken-1"
+                            @click.prevent="deleteTemp(temp._id)">Xóa</a>
                     </div>
                 </div>
             </div>
@@ -143,6 +144,36 @@ export default {
         edit(templateId){
             this.$emit('editTemplate');
             this.$store.commit('setEditTemplate', templateId)
+        },
+
+        deleteTemp(templateId){
+            this.$swal.fire({
+                title: 'Bạn có chắc muốn xóa?',
+                text: "Template này sẽ bị xóa đi vĩnh viễn",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ffb923',
+                cancelButtonColor: '#4677fd',
+                confirmButtonText: 'Ok, xóa'
+            }).then(result=>{
+                if(result.value){
+                    fetch(`${process.env.VUE_APP_PORT}/admin/delete-template/${templateId}`,{
+                        method:'DELETE',
+                        headers:{
+                            'Authorization':'Bearer '+this.$store.state.token
+                        }
+                    }).then(resp=>{
+                        return resp.json()
+                    }).then(resData=>{
+                        if(resData.status === 'success'){
+                            this.firePopup('success','Thành công', resData.msg);
+                            this.getTemplates();
+                        }
+                    }).catch(err=>{
+                        throw err
+                    })
+                }
+            })
         }
     }
 }

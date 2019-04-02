@@ -1,7 +1,8 @@
 <template>
-    <button class="waves-effect waves-light btn pink signup__btn"
+    <button class="waves-effect waves-light btn signup__btn"
             @click.prevent="onSubmit"
-            :disabled="disableCon || isLoading">
+            :disabled="disableCon || isLoading"
+            :class="vClass">
         <spinner v-if="isLoading"></spinner>
         <slot></slot>
         <span v-if="isLoading">...</span>
@@ -11,7 +12,18 @@
 <script>
 import spinner from './spinner.vue';
 export default {
-    props: ['disableCon', 'isLoading'],
+    props:{
+        disableCon:{
+            type: Boolean
+        },
+        isLoading:{
+            type: Boolean,            
+        },
+        vClass:{
+            type: String,
+            default: 'pink'
+        }
+    },
     components:{
         spinner
     },

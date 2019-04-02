@@ -86,8 +86,7 @@ export default {
             pluginsOpts: {
                     gjsPresetNewsletter: {
                     modalTitleImport: 'Cmm',
-                    // ... other options
-                    tableStyle : { height: '100px', margin: '0px auto 0px auto', padding: '0 0 0 0', width: '100%' }
+                    // ... other options                    
                 }
             },
         })

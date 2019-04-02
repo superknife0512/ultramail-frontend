@@ -2,7 +2,7 @@
     <div class="emailmar">
         <email-header findWhat="Tìm automation email">
             <template v-slot:title>
-                Khởi động chiến dịch
+                {{ campaignTitle }}
             </template>
         </email-header>
         
@@ -22,66 +22,75 @@
                 <h6 v-if="!automails[0]">Bạn chưa có automail nào trong này</h6>
                 
                 <v-loader v-if="!automails[0]"></v-loader>
-                <div class="emailmar__list" v-if="automails[0]">
 
-                    <div class="emailmar__list-badge z-depth-1" 
-                            v-for="(mail,i) in automails" :key="mail._id"
-                            :style="statusColors[i].border"
-                            @click="moreInfo(mail._id)"
-                            :class="{'shrink': activeEdit}"
-                            >
-                        <div class="emailmar__icon z-depth-1" :style="statusColors[i].bg">
-                            <i class="material-icons">
-                                {{ statusColors[i].icon }}
-                            </i>
-                        </div>
+                    <div class="emailmar__list" v-if="automails[0]">
 
-                        <div class="emailmar__list-item">
-                            <p class="emailmar__mini-title">
-                                Email
-                            </p>
-                            <h6 class="emailmar__name">
-                                {{ mail.mailName }}
-                            </h6>
-                        </div>
+                        <fly-out>
+                            <div class="emailmar__list-badge z-depth-1" 
+                                    v-for="(mail,i) in automails" :key="mail._id"
+                                    :style="statusColors[i].border"
+                                    @click="moreInfo(mail._id)"
+                                    :class="{'shrink': activeEdit}"
+                                    >
+                                <div class="emailmar__icon z-depth-1" :style="statusColors[i].bg">
+                                    <i class="material-icons">
+                                        {{ statusColors[i].icon }}
+                                    </i>
+                                </div>
 
-                        <div class="emailmar__list-item">
-                            <p class="emailmar__mini-title">
-                                From
-                            </p>
-                            <h6 class="emailmar__contact">
-                                {{ mail.from }}
-                            </h6>
-                        </div>
+                                <div class="emailmar__list-item">
+                                    <p class="emailmar__mini-title">
+                                        Email
+                                    </p>
+                                    <h6 class="emailmar__name">
+                                        {{ mail.mailName }}
+                                    </h6>
+                                </div>
 
-                        <div class="emailmar__list-item">
-                            <p class="emailmar__mini-title">
-                                Thời gian
-                            </p>
-                            <h6 class="emailmar__time">
-                                {{mail.dateTime | dateTimeFilter}}
-                            </h6>
-                        </div>
+                                <div class="emailmar__list-item">
+                                    <p class="emailmar__mini-title">
+                                        From
+                                    </p>
+                                    <h6 class="emailmar__contact">
+                                        {{ mail.from }}
+                                    </h6>
+                                </div>
 
-                        <div class="emailmar__list-item">
-                            <p class="emailmar__mini-title">
-                                Gửi cho
-                            </p>
-                            <h6 class="emailmar__contact">
-                                {{ mail.contacts.length }} trên {{ fullContactsQuantity }} <br>
-                                contacts
-                            </h6>
-                        </div>
-                    </div>  
-                    <v-pagination :perPage="perPage"
-                                    :numPages="numPages"
-                                    @changePage="curPage = $event"></v-pagination>           
-                </div>
+                                <div class="emailmar__list-item">
+                                    <p class="emailmar__mini-title">
+                                        Thời gian
+                                    </p>
+                                    <h6 class="emailmar__time">
+                                        {{mail.dateTime | dateTimeFilter}}
+                                    </h6>
+                                </div>
+
+                                <div class="emailmar__list-item">
+                                    <p class="emailmar__mini-title">
+                                        Gửi cho
+                                    </p>
+                                    <h6 class="emailmar__contact">
+                                        {{ mail.contacts.length }} trên {{ fullContactsQuantity }} <br>
+                                        contacts
+                                    </h6>
+                                </div>
+                            </div>  
+                        </fly-out>
+
+                        <v-pagination :perPage="perPage"
+                                        :numPages="numPages"
+                                        @changePage="curPage = $event"></v-pagination>           
+                    </div>
+
             </div>
             <edit-popup :activeEdit="activeEdit"
                         :campId="campaignId"
                         :mailId="mailId"
                         @deactivePopup="activeEdit = false"
+                        @updateAutomail="updateAutomail($event)"
+                        @delAutomail="delAutomail($event)"
+                        @cancelAutomail="cancelAutomail($event)"
+                        @restoreAutomail="restoreAutomail($event)"
                         v-if="activeEdit"></edit-popup>
         </div>
 
@@ -92,12 +101,14 @@
 <script>
 import emailHeader from "../../components/layouts/marketingHeaders";
 import editPopup from "../../components/layouts/editPopup"
+import flyOut from "../../components/transition/flyOut"
 
 export default {
     props:['campaignId'],
     components:{
         emailHeader,
-        editPopup,        
+        editPopup,     
+        flyOut,
     },
     data(){
         return {
@@ -106,6 +117,7 @@ export default {
             mailId:'',   
             perPage: 5,
             curPage: 1,      
+            campaignTitle: '',
         }
     },
 
@@ -118,14 +130,54 @@ export default {
             return resp.json()
         }).then(resData=>{
             this.initAutomails = resData.automails.reverse();
+            this.campaignTitle = resData.title;
         }).catch(err=>{
             throw err
         })
     },
+
     methods:{
+        refreshPage(){
+            const oldPage = this.curPage;
+            this.curPage = 2;
+            this.curPage = oldPage;
+        },
+
         moreInfo(mailId){
             this.activeEdit = true;
             this.mailId = mailId;            
+        },
+        updateAutomail(automail){
+            const mailId = automail._id;
+            let mailIndex = this.initAutomails.findIndex(each=>{
+                return each._id === mailId
+            })
+            this.initAutomails[mailIndex] = automail
+            this.refreshPage();
+        },
+
+        delAutomail(mailId){
+            let mailIndex = this.initAutomails.findIndex(each=>{
+                return each._id === mailId
+            })
+            this.initAutomails.splice(mailIndex, 1);
+            this.refreshPage();
+        },
+
+        cancelAutomail(mailId){
+                let mailIndex = this.initAutomails.findIndex(each=>{
+                    return each._id === mailId
+                })
+                this.initAutomails[mailIndex].isCancel = true;
+                this.refreshPage();
+        },
+
+        restoreAutomail(mailId){
+                let mailIndex = this.initAutomails.findIndex(each=>{
+                    return each._id === mailId
+                })
+                this.initAutomails[mailIndex].isCancel = false;
+                this.refreshPage();
         }
     },
 
@@ -140,9 +192,10 @@ export default {
         },
 
         automails(){
+            const automails = this.initAutomails
             const start = (this.curPage - 1)*this.perPage;
             const end = this.curPage*this.perPage;
-            return this.initAutomails.slice(start, end)
+            return automails.slice(start, end)
         },
 
         statusColors(){
