@@ -1,6 +1,7 @@
 <template>
     <div class="emailmar">
-        <email-header findWhat="Tìm automation email">
+        <email-header findWhat="Tìm automation email"
+                    @searchThing="searchThing($event)">
             <template v-slot:title>
                 {{ campaignTitle }}
             </template>
@@ -25,7 +26,7 @@
 
                     <div class="emailmar__list" v-if="automails[0]">
 
-                        <fly-out>
+                        <fly-out class="resp">
                             <div class="emailmar__list-badge z-depth-1" 
                                     v-for="(mail,i) in automails" :key="mail._id"
                                     :style="statusColors[i].border"
@@ -70,8 +71,7 @@
                                         Gửi cho
                                     </p>
                                     <h6 class="emailmar__contact">
-                                        {{ mail.contacts.length }} trên {{ fullContactsQuantity }} <br>
-                                        contacts
+                                        {{ mail.contacts.length }} trên {{ fullContactsQuantity }} contacts
                                     </h6>
                                 </div>
                             </div>  
@@ -118,6 +118,7 @@ export default {
             perPage: 5,
             curPage: 1,      
             campaignTitle: '',
+            oldDataAutomail: '',
         }
     },
 
@@ -132,7 +133,7 @@ export default {
             this.initAutomails = resData.automails.reverse();
             this.campaignTitle = resData.title;
         }).catch(err=>{
-            throw err
+            throw err        
         })
     },
 
@@ -178,6 +179,19 @@ export default {
                 })
                 this.initAutomails[mailIndex].isCancel = false;
                 this.refreshPage();
+        },
+
+        searchThing(searchData){
+            if(this.oldDataAutomail){
+                this.initAutomails = this.oldDataAutomail
+            }
+            const pattern = new RegExp(searchData, 'gi')
+            const newArr = this.initAutomails.filter(mail=>{
+                return mail.mailName.match(pattern);
+            })
+            this.oldDataAutomail = this.initAutomails;
+            this.initAutomails = newArr;
+            this.refreshPage();
         }
     },
 
@@ -249,12 +263,19 @@ export default {
 <style lang="scss">
     %each-item{
         margin: 0;
-        margin-left: 1rem;
         font-size: 1.3rem;
         line-height: 1.3;
     }
     .shrink{
         max-width: 96% !important;
+    }
+
+    .resp{
+        @media screen and (max-width: 667px) {            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     }
 
     .emailmar{
@@ -302,8 +323,8 @@ export default {
             background-color: white;
 
             display: flex;
-            align-items: center;            
-            justify-content: space-evenly;   
+            align-items: center;
+            justify-content:space-evenly;
             flex-wrap: wrap;
 
             position: relative;
@@ -348,6 +369,7 @@ export default {
         &__list-item{
             display: flex;
             align-items: flex-start;
+            flex-direction: column; // danger
             @media screen and (max-width: 523px ) {
                 margin-bottom: 1rem;
             }
@@ -360,7 +382,7 @@ export default {
         &__name{
             @extend %each-item;
             color: #ff5b85;            
-            width: 60%;            
+            // width: 60%;            
             text-transform: capitalize;
             @media screen and (max-width: 523px ) {
                 width: 100%
@@ -369,7 +391,7 @@ export default {
         &__time{
             @extend %each-item;
             color: #47a1e6;
-            width: 44%;
+            // width: 44%;
             @media screen and (max-width: 523px ) {
                 width: 100%
             }
@@ -381,7 +403,7 @@ export default {
         &__temp{
             @extend %each-item;
             color: #444;
-            width: 51%;
+            // width: 51%;
             @media screen and (max-width: 523px ) {
                 width: 100%
             }

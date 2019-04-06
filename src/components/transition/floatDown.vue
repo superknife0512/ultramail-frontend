@@ -24,6 +24,9 @@ export default {
     .float-down-leave-active {
         animation: float-down 1s cubic-bezier(.28,.63,.06,1) reverse;
     }
+    .float-down{
+        
+    }
     @keyframes float-down {
         0% {
             opacity: 0;

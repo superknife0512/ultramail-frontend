@@ -7,7 +7,8 @@
             
             <input type="text" :placeholder="findWhat"
                     v-model="search" 
-                    class="campaign__search--form">
+                    class="campaign__search--form"
+                    @change="searchThing(search)">
 
             <svg class="campaign__search--icon">
                 <use xlink:href="../../assets/campaign.svg#icon-search"></use>
@@ -19,14 +20,23 @@
 <script>
 export default {    
     props: {
-        search: {
-            type: String
-        },
         findWhat:{
             type: String,
             default: 'Tìm chiến dịch'
         }
+    },
+    data(){
+        return {
+            search:'',
+        }
+    },
+
+    methods:{
+        searchThing(searchData){
+            this.$emit('searchThing', searchData)
+        }
     }
+
 }
 </script>
 
@@ -67,6 +77,10 @@ export default {
 
             &--form{
                 width: 20rem !important;
+            }
+
+            input{
+                color: white;
             }
         }
     }

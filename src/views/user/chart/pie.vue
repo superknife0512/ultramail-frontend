@@ -48,7 +48,10 @@ export default {
 
         clickPercent(){
             const clicksNum = this.userData.clicks;
-            const emailSends = this.userData.emailSends;
+            let emailSends = this.userData.emailSends;
+            if(!emailSends){
+                emailSends = 1
+            }
             const percent = Math.ceil((clicksNum/emailSends)*100);
             return percent;
         },

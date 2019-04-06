@@ -102,7 +102,7 @@ export default {
             }).then(resData=>{
                 this.isLoading = false;
                 if(resData.status === 'success'){
-                    this.firePopup('success', 'Thành công', 'Bạn đã tạo thành công automail')
+                    this.firePopup('success', 'Thành công', resData.msg)
                     this.$router.push(`/campaign/${this.campaignId}`);
                 }
             }).catch(err=>{

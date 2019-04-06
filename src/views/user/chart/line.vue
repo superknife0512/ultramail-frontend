@@ -63,7 +63,7 @@ export default {
                 let newData = data.slice(data.length - maxLength,data.length);
                 return newData;
             }
-            return false;
+            return [0,0,0,0,0,0,0];
         }
     },
 }

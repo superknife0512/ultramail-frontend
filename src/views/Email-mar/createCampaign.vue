@@ -4,7 +4,7 @@
                         @closePopup=closePopup
                         @reload="initialize"></create-camp>
         
-        <email-header :search="search">
+        <email-header @searchThing="searchThing($event)">
             <template v-slot:title>
                 Marketing campaign
             </template>
@@ -62,7 +62,8 @@ export default {
             search: '',
             popupActive: false,
             campaigns: '',
-            isLoading: false
+            isLoading: false,
+            prevData: '',
         }
     },
 
@@ -124,6 +125,18 @@ export default {
                     })                    
                 }
             })
+        },
+
+        searchThing(searchData){
+            if(this.prevData){
+                this.campaigns = this.prevData
+            }
+            const pattern = new RegExp(searchData,'gi');
+            const searchCampaign = this.campaigns.filter(camp=>{
+                return camp.name.match(pattern)
+            })
+            this.prevData = this.campaigns;
+            this.campaigns = searchCampaign;
         }
     },
     computed:{

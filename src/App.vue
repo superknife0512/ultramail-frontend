@@ -67,21 +67,21 @@ export default {
     },
 
     initialize(){
-            fetch(`${process.env.VUE_APP_PORT}/userDash/${this.userId}`,{
-                headers:{
-                    'Authorization': 'Bearer '+ this.$store.state.token
-                }
-            }).then(resp=>{
-                    return resp.json()
-                }).then(resData=>{
-                    if(status === 'fail'){
-                        return this.firePopup('error', 'Phát hiện lỗi', resData.msg)
-                    }
-                    this.$store.commit('createUserData', resData.user)
-                }).catch(err=>{
-                    throw err
-                })
-        },
+      fetch(`${process.env.VUE_APP_PORT}/userDash/${this.userId}`,{
+      headers:{
+            'Authorization': 'Bearer '+ this.$store.state.token
+        }
+      }).then(resp=>{
+          return resp.json()
+      }).then(resData=>{
+          if(status === 'fail'){
+              return this.firePopup('error', 'Phát hiện lỗi', resData.msg)
+          }
+          this.$store.commit('createUserData', resData.user)
+      }).catch(err=>{
+          throw err
+      })
+    },
 
     deleteHandler(){
         localStorage.removeItem('signupId');

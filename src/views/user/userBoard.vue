@@ -4,7 +4,7 @@
             <div class="overview__wel">
                 <h6>Xin chào {{ userData.name }} đã quay trở lại</h6>
                 <i class="material-icons overview__name" 
-                    :class="{'red-text' : isNearExpire}">                    
+                    :class="{'pink-text' : isNearExpire}">                    
                     {{ isNearExpire ? 'info' : 'check_circle'}}
                 </i>
             </div>
@@ -37,7 +37,7 @@
             </div>
             
             <div class="account z-depth-1">
-                <h5 class="account__title">Thông tin tài khoảng </h5>
+                <h5 class="account__title">Thông tin tài khoản </h5>
 
                 <v-loader v-if="!userData.name"></v-loader>
                 <div class="account__detail" v-if="userData.name">
@@ -97,7 +97,7 @@
         
         
         <password-change :popupActive="passChangePopup"
-                            @closePassChange="passChangePopup=false"></password-change>
+                        @closePassChange="passChangePopup=false"></password-change>
 
     </div>
 
@@ -140,7 +140,10 @@ export default {
         },
         
         average(){
-            const arr = this.dataSet.dataCollection;
+            let arr = this.dataSet.dataCollection;
+            if(!arr[0]){
+                arr = [0,0,0,0,0]
+            }
             const sum = arr.reduce((a,b)=>{
                 return a + b;
             })    
@@ -148,7 +151,7 @@ export default {
         },
 
         isNearExpire(){
-            if(this.remainingDate < 5){
+            if(this.remainingDate <= 5){
                 return true
             }
             return false

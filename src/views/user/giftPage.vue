@@ -1,5 +1,5 @@
 <template>
-    <div class="gift">
+    <div class="gift" :class="{'full-grid': !isLogin}">
         <div class="edit-prev">
             <v-loader v-if="isMount"></v-loader>
             <div class="edit-prev__body z-depth-3" v-if="!isMount">
@@ -155,6 +155,9 @@ export default {
             } else {
                 return false
             }
+        },
+        isLogin(){
+            return this.$store.state.isLogin
         }
     },
 }
@@ -162,6 +165,9 @@ export default {
 
 
 <style lang="scss">
+.full-grid{
+    grid-column: 1/13 !important;
+}
 .gift{
     grid-column: 2/13;
     background-color: #edf6f4;

@@ -4,7 +4,9 @@
                     @deactivePopup="popupActive = false"
                     @success="successHandler($event)"></upload-img>
         <div class="sidebar__logo">
-            <h5>Ultra-mail</h5>
+            <router-link to="/" tag="h5" class="sidebar__brand">
+                Ultra-mail
+            </router-link>
             <a href="#" class="sidebar__icon--resp" @click="activeNav" >
                 <svg class="sidebar__icon">
                     <use xlink:href="../assets/icons.svg#icon-grid"></use>
@@ -157,6 +159,11 @@ export default {
                 border-bottom: 0 solid #000;
             } 
         }
+
+        &__brand{
+            cursor: pointer;
+        }
+
         &__face{
             padding: 1.8rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
