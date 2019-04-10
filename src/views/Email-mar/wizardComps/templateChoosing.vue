@@ -19,7 +19,7 @@
                 <div class="card" v-for="temp in slicedAdminTemp"
                     :key="temp._id">
                     <div class="card-image">
-                        <img :src="`http://localhost:4000/${temp.imgUrl}`">
+                        <img :src="`http://104.248.159.101:4000/${temp.imgUrl}`">
                         <span class="card-title">{{ temp.name }}</span>
                     </div>
                     <div class="card-content">
@@ -50,7 +50,7 @@
                 <div class="card" v-for="temp in slicedOwnerTemp"
                     :key="temp._id">
                     <div class="card-image">
-                        <img :src="`http://localhost:4000/${temp.imgUrl}`">
+                        <img :src="`http://104.248.159.101:4000/${temp.imgUrl}`">
                         <span class="card-title">{{ temp.name }}</span>
                     </div>
                     <div class="card-content">

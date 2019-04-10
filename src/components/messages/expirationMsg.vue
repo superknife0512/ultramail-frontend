@@ -15,7 +15,7 @@
         justify-content: center;
         align-items: center;
         position: fixed;
-        top: 4rem;
+        top: 0rem;
         left: 0;
         background-color: rgb(235, 132, 146);
         z-index: 600;

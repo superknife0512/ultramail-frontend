@@ -8,7 +8,7 @@
 
                 <div class="card">
                     <div class="card-image">
-                        <img :src="`http://localhost:4000/${temp.imgUrl}`">
+                        <img :src="`http://104.248.159.101:4000/${temp.imgUrl}`">
                         <span class="card-title">{{temp.name}}</span>
                     </div>
                     <div class="card-content">
