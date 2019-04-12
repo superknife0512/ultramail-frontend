@@ -25,7 +25,7 @@
                     <h5 class="signup__title cyan-text text-darken-1">
                         Đăng nhập
                     </h5>
-                    <h6>Bạn chưa có tài khoảng
+                    <h6>Bạn chưa có tài khoản
                         <router-link tag="a" to="/auth/signup">
                             Đăng kí ngay!!
                         </router-link>

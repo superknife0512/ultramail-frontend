@@ -55,13 +55,13 @@
                 </div>
 
                 <div class="account__update" v-if="userData.name">
-                    <h6>Nâng cấp tài khoảng:</h6>
+                    <h6>Nâng cấp tài khoản:</h6>
                     <input type="text" v-model="code" placeholder="Mã kích hoạt">
                     <submit-btn :isLoading="isActivating"
                                 :disableCon="!code"
                                 @onSubmit="activateLicense"
                                 class="submitBtn">
-                        Nâng cấp tài khoảng
+                        Nâng cấp tài khoản
                     </submit-btn>
                 </div>
 
@@ -91,8 +91,8 @@
             </div>
         </div>
         <expiration-msg v-if="remainingDate === 0">
-            Thời hạn sử dụng của tài khoảng này đã hết, hãy nhanh chóng liên hệ
-            với chúng tôi để gia hạn tài khoảng!
+            Thời hạn sử dụng của tài khoản này đã hết, hãy nhanh chóng liên hệ
+            với chúng tôi để gia hạn tài khoản!
         </expiration-msg>
         
         

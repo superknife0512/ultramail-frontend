@@ -209,7 +209,7 @@ export default {
             };
         }
         &__left{
-            background-color: #ffe3e5;
+            background-color: #e5f1ff;
             padding: 0 3rem !important; 
             display: flex; 
             flex-direction: column;

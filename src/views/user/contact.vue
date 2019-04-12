@@ -19,15 +19,18 @@
                             <th>Tên</th>
                             <th>Email </th>
                             <th>Ngày tạo</th>
+                            <th>SĐT</th>
                             <th>Xóa</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr v-for="contact in contactList" :key="contact._id">
+                        <tr v-for="contact in contactList" :key="contact._id"
+                            class="contact__badge" @click="edit(contact._id)">
                             <td>{{ contact.studentName }}</td>
                             <td>{{ contact.studentEmail }}</td>
                             <td class="contact__date">{{ contact.createdAt | dateFilter }}</td>
+                            <td>{{ contact.phone ? contact.phone : 'Không có' }}</td>
                             <td>
                                 <button class="btn btn-small waves-effect light-effects deep-orange"
                                         @click="deleteContact(contact._id)">
@@ -97,6 +100,9 @@ export default {
 
         addContact(newContact){
             this.$store.commit('addContact', newContact)
+        },
+        edit(contactId){
+            alert(contactId)
         }
     },
 }
@@ -109,8 +115,8 @@ export default {
             color: rgb(35, 123, 236)
         }
 
-        &__title{
-
+        &__badge{
+            cursor: pointer;
         }
 
         &__body{

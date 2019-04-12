@@ -198,7 +198,7 @@ export default {
             if(this.imageTempUrl === '' && this.imgUrl === ''){
                 return `${process.env.VUE_APP_PORT}/public/images/gift.jpg`
             } else if (this.imageTempUrl === '' && this.imgUrl !== ''){
-                return process.env.VUE_APP_PORT +'/'+ this.imgUrl
+                return this.imgUrl
             } else if (this.imageTempUrl !== '' && this.imgUrl !== ''){
                 return this.imageTempUrl
             } else {

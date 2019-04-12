@@ -8,7 +8,7 @@
 
                 <div class="card">
                     <div class="card-image">
-                        <img :src="`http://104.248.159.101:4000/${temp.imgUrl}`">
+                        <img :src="`${port}/${temp.imgUrl}`">
                         <span class="card-title">{{temp.name}}</span>
                     </div>
                     <div class="card-content">
@@ -39,6 +39,7 @@ export default {
         return {
             isLoading: true,
             templates: [],
+            port: process.env.VUE_APP_PORT
         }
     },
     created(){

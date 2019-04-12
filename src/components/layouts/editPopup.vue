@@ -208,6 +208,7 @@ export default {
         },
 
         deleteMail(){
+            
             this.$swal.fire({
                 title: 'Bạn có chắc muốn xóa?',
                 text: "Automail này sẽ bị xóa đi vĩnh viễn",
@@ -217,8 +218,9 @@ export default {
                 cancelButtonColor: '#4677fd',
                 confirmButtonText: 'Ok, xóa'
             }).then((result) => {
-                if (result.value) {                   
+                if (result.value) {                
                     this.isLoadingDel = true
+                    this.$emit('delAutomail',this.mailId);  
                    const queryStr = `campId=${this.campId}&&mailId=${this.mailId}`
                    fetch(`${process.env.VUE_APP_PORT}/campaign/automail?${queryStr}`,{
                        method: 'DELETE',
@@ -229,9 +231,8 @@ export default {
                        return resp.json()
                    }).then(resData=>{
                        this.isLoadingDel = false
-                       if(resData.status === 'success'){
+                       if(resData.status === 'success'){    
                            this.firePopup('success','Thành công', resData.msg);
-                           this.$emit('delAutomail', resData.mailId);
                        }
                    }).catch(err=>{
                        this.isLoadingDel = false

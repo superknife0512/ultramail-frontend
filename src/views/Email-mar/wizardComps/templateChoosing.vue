@@ -50,7 +50,7 @@
                 <div class="card" v-for="temp in slicedOwnerTemp"
                     :key="temp._id">
                     <div class="card-image">
-                        <img :src="`http://104.248.159.101:4000/${temp.imgUrl}`">
+                        <img :src="`${port}/${temp.imgUrl}`">
                         <span class="card-title">{{ temp.name }}</span>
                     </div>
                     <div class="card-content">
@@ -82,6 +82,7 @@ export default {
             perPage: 4,
             curPage1: 1,
             curPage2: 1,
+            port: process.env.VUE_APP_PORT
         }
     },
 

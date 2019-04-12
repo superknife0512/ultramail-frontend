@@ -34,6 +34,14 @@
                                     <input type="email" name="email" v-model="email">
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label for="phoen">Nhập vào số điện thoại của bạn</label>
+                                    <input type="number" name="phone" v-model="phone">
+                                </div>
+                            </div>
+
                             <div class="edit-prev__lock">
                                 <button class="btn waves-effect light-effect" 
                                         :style="bgColor"
@@ -66,7 +74,8 @@ export default {
             email: '',
             isMount: true,
             isUnlock: false,
-            studentName: ''
+            studentName: '',
+            phone: '',
         }
     },
 
@@ -89,7 +98,8 @@ export default {
                         desc: this.userGift.desc,
                         downloadLink: this.userGift.downloadLink,
                         userId: this.userId,
-                        studentName: this.studentName
+                        studentName: this.studentName,
+                        phone: this.phone
                     })
                 }).then(resp=>{
                     return resp.json()
@@ -128,7 +138,7 @@ export default {
                 if(!this.userGift.imgUrl){
                     return `${process.env.VUE_APP_PORT}/public/images/gift.jpg`
                 }
-                return `${process.env.VUE_APP_PORT}/${this.userGift.imgUrl}`
+                return this.userGift.imgUrl;
             }
             return false;
         },

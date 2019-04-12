@@ -33,7 +33,7 @@ export default {
                 options: {
                     title:{
                         display: true,
-                        text: 'Phần trăm clicks trên lượt email gửi đi',
+                        text: '% clicks trên lượt email gửi đi',
                         fontSize: 18,
                     }
                 }

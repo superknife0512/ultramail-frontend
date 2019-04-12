@@ -22,7 +22,7 @@
 
                 <h6 v-if="!automails[0]">Bạn chưa có automail nào trong này</h6>
                 
-                <v-loader v-if="!automails[0]"></v-loader>
+                <v-loader v-if="isLoading"></v-loader>
 
                     <div class="emailmar__list" v-if="automails[0]">
 
@@ -88,9 +88,9 @@
                         :mailId="mailId"
                         @deactivePopup="activeEdit = false"
                         @updateAutomail="updateAutomail($event)"
-                        @delAutomail="delAutomail($event)"
                         @cancelAutomail="cancelAutomail($event)"
                         @restoreAutomail="restoreAutomail($event)"
+                        @delAutomail="delAutomail($event)"
                         v-if="activeEdit"></edit-popup>
         </div>
 
@@ -119,25 +119,33 @@ export default {
             curPage: 1,      
             campaignTitle: '',
             oldDataAutomail: '',
+            isLoading: true,
         }
     },
 
     created(){
-        fetch(`${process.env.VUE_APP_PORT}/campaign/${this.campaignId}`,{
-            headers:{
-                'Authorization': 'cax '+this.$store.state.token
-            },            
-        }).then(resp=>{
-            return resp.json()
-        }).then(resData=>{
-            this.initAutomails = resData.automails.reverse();
-            this.campaignTitle = resData.title;
-        }).catch(err=>{
-            throw err        
-        })
+        this.initialize();
     },
 
     methods:{
+        initialize(){
+            this.initAutomails = ''
+            fetch(`${process.env.VUE_APP_PORT}/campaign/${this.campaignId}`,{
+                headers:{
+                    'Authorization': 'cax '+this.$store.state.token
+                },            
+            }).then(resp=>{
+                return resp.json()
+            }).then(resData=>{
+                this.isLoading = false;
+                this.initAutomails = resData.automails.reverse();
+                this.campaignTitle = resData.title;
+            }).catch(err=>{
+                this.isLoading = false;
+                throw err        
+            })
+        },
+
         refreshPage(){
             const oldPage = this.curPage;
             this.curPage = 2;
@@ -161,7 +169,7 @@ export default {
             let mailIndex = this.initAutomails.findIndex(each=>{
                 return each._id === mailId
             })
-            this.initAutomails.splice(mailIndex, 1);
+            this.initAutomails.splice(mailIndex,1)
             this.refreshPage();
         },
 

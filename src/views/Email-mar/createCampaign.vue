@@ -62,7 +62,7 @@ export default {
             search: '',
             popupActive: false,
             campaigns: '',
-            isLoading: false,
+            isLoading: true,
             prevData: '',
         }
     },
@@ -74,7 +74,7 @@ export default {
                 const shortString = value.slice(0,28);
                 return shortString.join(' ') + '...'
             }
-            return value
+            return value.join(' ')
         }
     },
 
@@ -107,7 +107,7 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Xóa nó đi'
+                confirmButtonText: 'Ok xóa'
                 }).then((result) => {
                 if (result.value) {
                     fetch(`${process.env.VUE_APP_PORT}/campaign/${campId}`,{
@@ -208,7 +208,8 @@ export default {
             background-color: white;
             padding: 1rem;
             border-bottom: 1px solid rgba(0, 0, 0, .1);
-            color: rgb(117, 117, 117)
+            color: rgb(117, 117, 117);
+            min-height: 51%;
         }
         &__card-action{
             background-color: white;

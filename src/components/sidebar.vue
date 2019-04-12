@@ -37,7 +37,7 @@
             <svg class="sidebar__icon">
                 <use xlink:href="../assets/icons.svg#icon-users"></use>
             </svg>
-            <p>Contact</p>
+            <p>Liên hệ</p>
         </router-link>
 
         <router-link tag="div" :to="`/user/${userId}/create-email`" class="sidebar__item"
@@ -46,7 +46,7 @@
             <svg class="sidebar__icon">
                 <use xlink:href="../assets/icons.svg#icon-open-book"></use>
             </svg>
-            <p>Gift page</p>
+            <p>Quà tặng</p>
         </router-link>
 
         <router-link tag="div" to="/campaign" class="sidebar__item"
@@ -92,7 +92,7 @@ export default {
             if(!avatar){
                 return `${process.env.VUE_APP_PORT}/public/images/user.png`
             }
-            return `${process.env.VUE_APP_PORT}/${avatar}`;
+            return avatar;
         },
     },
     methods:{

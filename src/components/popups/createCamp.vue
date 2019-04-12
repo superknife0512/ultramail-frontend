@@ -78,11 +78,11 @@ export default {
                     'Authorization': 'Bearer '+this.$store.state.token,
                     'Content-type':'application/json',
                 },
-                body:JSON.stringify({name: this.name, desc: this.desc, scale: this.scale})
+                body: JSON.stringify({name: this.name, desc: this.desc, scale: this.scale})
             }).then(resp=> {
                 return resp.json()
             }).then(resData=>{
-                this.isLoading = true;
+                this.isLoading = false;
                 if(resData.status === 'success'){
                     this.firePopup('success', 'Tạo thành công', resData.msg);
                     this.reload();
@@ -90,8 +90,7 @@ export default {
                     this.firePopup('error', 'Có lỗi tử server', resData.msg);
                 }
             }).cacth(err=>{
-                this.isLoading = true;
-
+                this.isLoading = false;
                 throw err
             })
         }

@@ -101,7 +101,7 @@ export default {
                         </a>`,
         })
 
-        this.setComponents();
+        this.setComponents()
                
     },
 

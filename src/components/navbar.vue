@@ -8,7 +8,7 @@
               @click="activeSideMenu()">
               menu
             </i>
-          <router-link to="/" tag="a" class="brand-logo red-text text-lighten-3">
+          <router-link to="/" tag="a" class="brand-logo white-text text-lighten-3">
             Ultra Mail
           </router-link>
           <ul id="nav-mobile " class=" right hide-on-med-and-down">
