@@ -1,8 +1,10 @@
 <template>
     <div class="contact"> 
         <add-contact :popupActive="popupActive"
-                    @deactivePopup="popupActive = false"
-                    @addContact="addContact($event)"></add-contact>
+                    @deactivePopup="deactivePopup()"
+                    @addContact="addContact($event)"
+                    :isEdit="isEdit"
+                    :editContact="editContact"></add-contact>
 
         <div class="contact__body">
             <h4 class="contact__title">Danh sách thông tin học viên</h4>
@@ -57,6 +59,8 @@ export default {
         return {
             contactLists: '',
             popupActive: false,
+            isEdit: false,
+            editContact: '',
         }   
     },
 
@@ -98,11 +102,21 @@ export default {
             })
         },
 
+        deactivePopup(){
+            this.popupActive = false;
+            this.isEdit = false;
+            this.editContact = null;
+        },
+
         addContact(newContact){
             this.$store.commit('addContact', newContact)
         },
         edit(contactId){
-            alert(contactId)
+            this.popupActive = true;
+            this.isEdit = true;
+            this.editContact = this.contactList.find(contact=>{
+                return contact._id === contactId
+            })
         }
     },
 }

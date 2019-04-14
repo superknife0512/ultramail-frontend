@@ -101,7 +101,8 @@ export default {
         },
 
         successHandler(avatar){
-            this.$store.commit('updateAvatar',avatar)
+            this.$store.commit('updateAvatar',avatar);
+            this.$forceUpdate();
         },
         logout(){
             this.$store.commit('logoutHandler')
