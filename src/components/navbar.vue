@@ -9,7 +9,7 @@
               menu
             </i>
           <router-link to="/" tag="a" class="brand-logo white-text text-lighten-3">
-            Ultra Mail
+            MailCampro
           </router-link>
           <ul id="nav-mobile " class=" right hide-on-med-and-down">
 
@@ -27,7 +27,7 @@
                           exact exact-active-class="active"
                           v-if="!isLogin">
 
-              <a class="nav__link orange-text text-lighten-3">
+              <a class="nav__link cyan-text text-lighten-4">
                 <i class="material-icons left">account_circle</i>
               Đăng kí</a>
             </router-link>
@@ -55,7 +55,7 @@
 
     ul{
       li.active{
-        background-color: #ffc400;
+        background-color: #57e8fc;
         .nav__link{
           &:link, &:visited{
             color: rgb(31, 31, 31) !important; 

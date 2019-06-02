@@ -9,10 +9,13 @@
         <div class="contact__body">
             <h4 class="contact__title">Danh sách thông tin học viên</h4>
             <h6>Có tổng cộng là: {{ contactList.length }} khách hàng</h6><br>
-            <button class="waves-effect indigo btn"
+            <button class="waves-effect pink btn mr-2"
                     @click="popupActive = true">
                 Thêm liên lạc
             </button>
+            <a :href="`${domain}/userDash/download-pdf/${userId}`" class="waves-effect indigo btn" target="blank">
+                Trích xuất dữ liệu
+            </a>
 
             <div class="contact__list">
                  <table class="centered responsive-table">
@@ -61,6 +64,7 @@ export default {
             popupActive: false,
             isEdit: false,
             editContact: '',
+            domain: process.env.VUE_APP_PORT
         }   
     },
 
@@ -75,6 +79,10 @@ export default {
     computed: {
         contactList(){
             return this.$store.state.userData.studentContacts
+        },
+
+        userId(){
+            return this.$store.state.userId;
         }
     },
 
@@ -155,6 +163,9 @@ export default {
         &__date{
             color: rgb(255, 51, 102);
         }
+    }
+    .mr-2{
+        margin-right: 0.5rem;
     }
 </style>
 

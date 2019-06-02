@@ -66,8 +66,6 @@ export default new Vuex.Store({
       state.userData = userData
     },
 
-
-
     setTemplates(state, templates){
       state.templates = templates
     },

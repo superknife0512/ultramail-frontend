@@ -78,7 +78,7 @@ export default {
             const formData = new FormData();
             formData.append('avatar', this.file),
 
-            fetch('http://localhost:4000/userDash/upload-avatar', {
+            fetch(`${process.env.VUE_APP_PORT}/userDash/upload-avatar`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer '+this.$store.state.token

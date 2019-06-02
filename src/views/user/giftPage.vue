@@ -46,7 +46,7 @@
                                 <button class="btn waves-effect light-effect" 
                                         :style="bgColor"
                                         @click="unlock"
-                                        :disabled="!email || !token || !isEmail">
+                                        :disabled="!email || !token || !isEmail || !studentName">
                                     <i class="material-icons left">lock_open</i>
                                     Mở khóa tài liệu
                                 </button>

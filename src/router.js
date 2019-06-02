@@ -131,6 +131,16 @@ export default new Router({
       path: '/campaign',
       name: 'campaign',
       component: () => import(/* webpackChunkName: "campaign-group" */ './views/Email-mar/campaign.vue'),
+      
+      beforeEnter: (to,from,next)=>{
+        const isLogin = store.getters.loginState
+        
+        if(isLogin == false){
+          next('/auth/login');
+        } else if(isLogin == true){
+          next()
+        }        
+      },
       children: [
         {
           path: '/',

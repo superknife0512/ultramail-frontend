@@ -37,6 +37,13 @@
                                     class="validate"
                                     v-model="name">
                         </div>
+
+                        <div class="input-field col s12">
+                            <label for="phone" >Nhập vào số điện thoại</label>
+                            <input v-model="phone" 
+                                    type="text" >
+                        </div>
+                        
                         <div class="input-field col s12">
                             <label for="email" >Địa chỉ email</label>
                             <input placeholder="" 
@@ -80,8 +87,9 @@
                                         :errorCon="isSame">
                                 Mật khẩu khi nhập lại phải giống nhau
                             </warning-msg>
-                        </div>
-                        <submit-btn :disableCon="!canIUse || !isSame || !isLength || password.length === 0 || !isEmail "
+                        </div>                        
+                        
+                        <submit-btn :disableCon="!canIUse || !isSame || !isLength || password.length === 0 || !isEmail || !phone"
                                     :isLoading="isLoading"
                                     @onSubmit="submit">
                             Đăng kí
@@ -102,6 +110,7 @@ export default {
             email: '',
             password: '',
             name: '',
+            phone: '',
             emailCheck: '',
             canIUse: false,
             cfPass: '',
@@ -119,6 +128,7 @@ export default {
                     email: this.email.toLowerCase(),
                     password: this.password,
                     name: this.name,
+                    phone: this.phone
                 }),
                 headers:{
                     'Content-Type': 'application/json'

@@ -5,7 +5,7 @@
                     @success="successHandler($event)"></upload-img>
         <div class="sidebar__logo">
             <router-link to="/" tag="h5" class="sidebar__brand">
-                Ultra-mail
+                FastestMail
             </router-link>
             <a href="#" class="sidebar__icon--resp" @click="activeNav" >
                 <svg class="sidebar__icon">
@@ -154,7 +154,7 @@ export default {
             flex-direction: column;
             align-items: center;
             padding: 1.8rem 0;
-            color: #2bf8ff;
+            color: #8af9fd;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             @media screen and (max-width: 667px) {
                 border-bottom: 0 solid #000;

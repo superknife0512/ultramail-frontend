@@ -141,7 +141,7 @@ export default {
         
         average(){
             let arr = this.dataSet.dataCollection;
-            if(!arr[0]){
+            if(arr.length === 0){
                 arr = [0,0,0,0,0]
             }
             const sum = arr.reduce((a,b)=>{
