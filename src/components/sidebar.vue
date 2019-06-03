@@ -5,7 +5,7 @@
                     @success="successHandler($event)"></upload-img>
         <div class="sidebar__logo">
             <router-link to="/" tag="h5" class="sidebar__brand">
-                FastestMail
+                <img src="../assets/Logo.png" alt="logo" height="90">
             </router-link>
             <a href="#" class="sidebar__icon--resp" @click="activeNav" >
                 <svg class="sidebar__icon">
@@ -25,7 +25,7 @@
                     exact
                     exact-active-class="sidebar--active">
             <svg class="sidebar__icon">
-                <use xlink:href="../assets/icons.svg#icon-news"></use>
+                <use xlink:href="../assets/icons.svg#icon-display"></use>
             </svg>
             <p>Dashboard</p>
         </router-link>
@@ -44,7 +44,7 @@
                     exact
                     exact-active-class="sidebar--active">
             <svg class="sidebar__icon">
-                <use xlink:href="../assets/icons.svg#icon-open-book"></use>
+                <use xlink:href="../assets/icons.svg#icon-gift"></use>
             </svg>
             <p>Quà tặng</p>
         </router-link>

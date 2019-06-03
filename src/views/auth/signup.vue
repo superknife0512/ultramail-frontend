@@ -4,11 +4,16 @@
             <div class="row signup__box z-depth-4">
                 <div class="signup__left">
                     <div class="signup__welcome">
+                        <img src="../../assets/Logo_light.png" alt="logo" >
                         <h4 class="signup__welcome-title deep-purple-text">
-                            Chào mừng các bạn đến với Ultra-mail
+                            Chào mừng các bạn đến với Postcamps
                         </h4>
                         <h5>Ứng dụng hỗ trợ đắc lực trong email marketing.</h5>
-                        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui numquam molestias accusamus, molestiae praesentium laborum, quos accusantium, officia unde minus nemo? Quos ab eos rem ut impedit modi consequuntur accusantium?</p> 
+                        <p> 
+                            Đăng kí ngay từ bây giờ, bạn sẽ có ngay <b> 5 ngày dùng thử </b>toàn bộ tính năng  của website một cách 
+                            <b> hoàn toàn miễn phí </b>, cùng với đó là sự hỗ trợ hết mình của đội ngũ chúng tôi, đảm bảo cho các 
+                            bạn có được trải nghiệm tốt nhất.
+                        </p> 
                     </div>
                     <hr>
                     <div class="signup__social">
@@ -238,8 +243,19 @@ export default {
             }
         }
         &__welcome{
+            display: flex;
+            flex-direction: column;
+            h4{
+                margin: 0;
+            }
             p{
                 color: #555;
+                margin: 0;
+            }
+            img{
+                align-self: center;
+                height: 8.5rem;
+                margin-bottom: 1.5rem;
             }
         }
         &__welcome-title{

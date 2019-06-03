@@ -4,11 +4,16 @@
             <div class="row signup__box z-depth-4">
                 <div class="signup__left">
                     <div class="signup__welcome">
+                        <img src="../../assets/Logo_light.png" alt="logo" >
                         <h4 class="signup__welcome-title deep-purple-text">
-                            Chào mừng các bạn quay trở lại với Ultramail
+                            Chào mừng các bạn quay trở lại với Postcamps
                         </h4>
                         <h5>Ứng dụng hỗ trợ đắc lực trong email marketing.</h5>
-                        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui numquam molestias accusamus, molestiae praesentium laborum, quos accusantium, officia unde minus nemo? Quos ab eos rem ut impedit modi consequuntur accusantium?</p> 
+                        <p>
+                            <b>Postcamps</b> là nền tảng email marketing giúp bạn thay đổi hoàn toàn tư duy và chiến 
+                            lượt khi sử dụng email của mình, cung cấp cho bạn những giải pháp nhanh chóng và tiện 
+                            lợi, cùng với đó là sự hỗ trợ hết mình đến từ đội ngũ của chúng tôi.
+                        </p> 
                     </div>
                     <hr>
                     <div class="signup__social">
@@ -127,6 +132,11 @@ export default {
 <style lang="scss">
     .login{
         .signup{
+            &__welcome{
+                img{
+                    height: 7rem;
+                }
+            }
             &__box{
                 height: 33rem;
                 @media screen and (max-width: 600px){

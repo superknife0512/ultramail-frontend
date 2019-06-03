@@ -9,7 +9,7 @@
               menu
             </i>
           <router-link to="/" tag="a" class="brand-logo white-text text-lighten-3">
-            MailCampro
+            <img src="../assets/Logo_only.png" alt="logo" class="logo">
           </router-link>
           <ul id="nav-mobile " class=" right hide-on-med-and-down">
 
@@ -70,6 +70,11 @@
     @media screen and (min-width: 900px) {
       display: none !important;
     }
+  }
+
+  .logo{
+    height: 2.3rem;
+    margin-top: .5rem;
   }
 
 </style>

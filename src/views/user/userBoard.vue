@@ -42,7 +42,7 @@
                 <v-loader v-if="!userData.name"></v-loader>
                 <div class="account__detail" v-if="userData.name">
                     <h6 class="account__budget">
-                        Tổng tiền đã dùng: <b>{{ userData.budget | priceFilter }}</b> VND
+                        Tổng chi phí đã dùng: <b>{{ userData.budget | priceFilter }}</b> VND
                     </h6>
 
                      <h6 class="account__date">
