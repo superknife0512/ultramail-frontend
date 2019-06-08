@@ -21,6 +21,27 @@
                             <label for="desc">Template description </label>
                         </div>
                     </div>
+
+                    <div class="row" v-if="isAdmin">
+                        <h6>Choose template limit</h6>
+                        <label>
+                            <input type="checkbox" v-model="limit" value="basic"/>
+                            <span>basic</span>
+                        </label><br>
+                        <label>
+                            <input type="checkbox" v-model="limit" value="standard"/>
+                            <span>standard</span>
+                        </label><br>
+                        <label>
+                            <input type="checkbox" v-model="limit" value="premium"/>
+                            <span>premium</span>
+                        </label><br>
+                        <label>
+                            <input type="checkbox" v-model="limit" value="bussiness"/>
+                            <span>bussiness</span>
+                        </label>
+                    </div>
+
                     <div class="row">
                         <div class="file-field input-field col s12">
                             <div class="btn waves-effect cyan lighten-3 ">
@@ -68,6 +89,7 @@ export default {
         if (this.editMode == true){
             this.name = this.editedTemplate.name;
             this.desc = this.editedTemplate.desc;
+            this.limit = this.editedTemplate.limit;
         }
     },
 
@@ -78,6 +100,7 @@ export default {
             fileUrlTemp: '',
             file: '',
             isLoading: false,
+            limit: [],
         }
     },
 
@@ -107,7 +130,8 @@ export default {
                 formData.append('desc', this.desc);
                 formData.append('tempImg', this.file);
                 formData.append('components', this.components.toString());
-                formData.append('html', this.inlinedHTML.toString())
+                formData.append('html', this.inlinedHTML.toString());
+                formData.append('limit', this.limit);
 
                 fetch(url,{
                     method: method,
@@ -142,6 +166,12 @@ export default {
 
         away(){
             this.$emit('deactivePopup');
+        }
+    },
+
+    computed:{
+        isAdmin(){
+            return this.$store.state.userId === '5c9614fb2206af03f417171c'
         }
     }
 }

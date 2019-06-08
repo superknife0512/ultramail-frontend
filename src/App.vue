@@ -1,18 +1,17 @@
 <template>
   <div id="app">
     <grid-layout>
-      <nav-bar @activeSideMenu="isActive = true" v-if="!isLogin"></nav-bar>      
+      
       <side-nav :isActive="isActive" 
                 @deActiveSidenav="isActive = false"></side-nav>
       <side-bar class="grid-nav" v-if="isLogin" @activeNav="isActive = true"></side-bar>
-      <!-- <div class="grid-nav" style="background: #edf6f4; height: 100vh" v-if="!isLogin"></div> -->
+      
       <router-view/>
     </grid-layout>
   </div>
 </template>
 
 <script>
-import navBar from './components/navbar'
 import sideNav from './components/sidenav'
 import sideBar from './components/sidebar'
 export default {  
@@ -54,7 +53,6 @@ export default {
 
 
   components:{
-    navBar,
     sideNav,
     sideBar
   },

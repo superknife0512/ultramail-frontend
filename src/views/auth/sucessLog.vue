@@ -6,7 +6,7 @@
         <h6>
             Có một email xác nhận vừa được gởi đến 
             email mà bạn đã đăng kí, trong đó có một mã dùng
-            thử các dịch vụ trang web trong vòng 7 ngày.
+            thử các dịch vụ trang web trong vòng 5 ngày.
             bạn hãy dán nó vào trường bên dưới. Xin cảm ơn.
             Nếu 5 phút mà bạn vẫn chưa nhận được hãy nhấn
             <a href="#" @click.prevent.once="resend">Gửi lại (1 lần nữa)</a>,

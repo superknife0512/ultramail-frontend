@@ -19,7 +19,7 @@
                 <div class="card" v-for="temp in slicedAdminTemp"
                     :key="temp._id">
                     <div class="card-image">
-                        <img :src="`${port}/${temp.imgUrl}`">
+                        <img :src="`${temp.imgUrl}`">
                         <span class="card-title">{{ temp.name }}</span>
                     </div>
                     <div class="card-content">
@@ -50,7 +50,7 @@
                 <div class="card" v-for="temp in slicedOwnerTemp"
                     :key="temp._id">
                     <div class="card-image">
-                        <img :src="`${port}/${temp.imgUrl}`">
+                        <img :src="`${temp.imgUrl}`">
                         <span class="card-title">{{ temp.name }}</span>
                     </div>
                     <div class="card-content">
@@ -129,7 +129,32 @@ export default {
                 this.isLoading = false;
                 if(resData.status === 'success'){
                     this.ownerTemplate = resData.ownerTemplate;
-                    this.adminTemplate = resData.adminTemplate;
+
+                    const changeLevelNumber = (level)=>{ //this function turn the level from charater into number
+                        if(level === 'basic') return 1 ;
+                        else if (level === 'standard') return 2;
+                        else if (level === 'premium') return 3;
+                        else if (level === 'bussiness') return 4;
+                        else if (level === 'free') return 5;
+                        return 0;
+                    }
+
+                    const lowestLevel = (allLevel) =>{ // Lowest level can use
+                        return Math.min(...allLevel);
+                    }
+                    
+                    // this logic help us differentiate level of template and user for use
+                    this.adminTemplate = resData.adminTemplate.filter(templ=>{
+                        const levelNumbers = templ.limit.map(level=>{
+                            return changeLevelNumber(level);
+                        })
+                        const userLevelNumber = changeLevelNumber(this.$store.state.userData.userLevel);
+                        
+                        let lowestLv = lowestLevel(levelNumbers);
+                        if(userLevelNumber >= lowestLv) return true
+                        else return false;
+                    });
+
                     this.$store.commit('loadUserTemplates', {
                         ownerTemplate: resData.ownerTemplate,
                         adminTemplate: resData.adminTemplate
@@ -142,6 +167,7 @@ export default {
                 throw err;
             })
         },
+
         edit(templateId){
             this.$emit('editTemplate');
             this.$store.commit('setEditTemplate', templateId)

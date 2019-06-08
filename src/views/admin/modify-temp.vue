@@ -2,13 +2,13 @@
     <div class="card__body">
         <v-loader v-if="isLoading"></v-loader>
         <div class="row" v-if="!isLoading">
-            <div class="col s12 m2 l3" 
+            <div class="col s12 m6 l3" 
                 v-for="temp in templates" 
                 :key="temp._id">
 
                 <div class="card">
                     <div class="card-image">
-                        <img :src="`${port}/${temp.imgUrl}`">
+                        <img :src="temp.imgUrl">
                         <span class="card-title">{{temp.name}}</span>
                     </div>
                     <div class="card-content">
