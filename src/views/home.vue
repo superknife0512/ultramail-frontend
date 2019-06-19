@@ -6,7 +6,7 @@
         <div class="hero__wrapper">
           <header class="hero__header container">
             <img src="../assets/Logo_light.png" alt="logo" class="hero__brand">
-            <div class="hero__nav" :class="{'active': resMenu}">
+            <div class="hero__nav" :class="{'activeRes': resMenu}">
 
               <li class="hero__item">
                 <a href="/" class="hero__link">
@@ -179,11 +179,11 @@
               </div>
               <div class="plan__feature plan__not">
                 <img src="../assets/x.png" alt="tick">
-                <p>Template đặt biệt</p>
+                <p>Hỗ trợ ưu tiên</p>
               </div>
               <div class="plan__feature plan__not">
                 <img src="../assets/x.png" alt="tick">
-                <p>Hỗ trợ ưu tiên</p>
+                <p>Template đặt biệt</p>
               </div>
               <div class="plan__feature plan__not">
                 <img src="../assets/x.png" alt="tick">
@@ -218,11 +218,11 @@
               </div>
               <div class="plan__feature">
                 <img src="../assets/tick.png" alt="tick">
-                <p>Template đặt biệt</p>
+                <p>Hỗ trợ ưu tiên</p>
               </div>
               <div class="plan__feature plan__not">
                 <img src="../assets/x.png" alt="tick">
-                <p>Hỗ trợ ưu tiên</p>
+                <p>Template đặt biệt</p>
               </div>
               <div class="plan__feature plan__not">
                 <img src="../assets/x.png" alt="tick">
@@ -256,11 +256,11 @@
               </div>
               <div class="plan__feature">
                 <img src="../assets/tick.png" alt="tick">
-                <p>Template đặt biệt</p>
+                <p>Hỗ trợ ưu tiên</p>
               </div>
               <div class="plan__feature">
                 <img src="../assets/tick.png" alt="tick">
-                <p>Hỗ trợ ưu tiên</p>
+                <p>Template đặt biệt</p>
               </div>
               <div class="plan__feature plan__not">
                 <img src="../assets/x.png" alt="tick">
@@ -294,11 +294,11 @@
               </div>
               <div class="plan__feature">
                 <img src="../assets/tick.png" alt="tick">
-                <p>Template đặt biệt</p>
+                <p>Hỗ trợ ưu tiên</p>
               </div>
               <div class="plan__feature">
                 <img src="../assets/tick.png" alt="tick">
-                <p>Hỗ trợ ưu tiên</p>
+                <p>Template đặt biệt</p>
               </div>
               <div class="plan__feature">
                 <img src="../assets/tick.png" alt="tick">
@@ -418,7 +418,7 @@ $color-white: #fff;
     width: 100%;
   }
 }
-.active{
+.activeRes{
   display: flex !important;
 }
 .hero{
@@ -496,6 +496,9 @@ $color-white: #fff;
         align-items: center;
         transform: translateY(-8rem);
         z-index: 1000;
+        @include responsive(1700px){
+          transform: translateY(-4rem);
+        }
 
         @include responsive(1400px){
           flex-direction: column;
@@ -581,8 +584,8 @@ $color-white: #fff;
       transform: translateX(1rem);
       z-index: 1000;
 
-      @include responsive(1600px){
-        height: 31rem;
+      @include responsive(1750px){
+        height: 29rem;
       }
       @include responsive(1400px){
         height: 25rem;
@@ -703,7 +706,7 @@ $color-white: #fff;
     @extend %displayFlex;
     margin-right: 5.5rem;
 
-    @include responsive(1600px){
+    @include responsive(1750px){
       margin-right: 2.4rem;
     }
     @include responsive(1060px){
@@ -717,10 +720,10 @@ $color-white: #fff;
     @extend %displayFlex;
     margin-left: 5.5rem;
     margin-top: 10rem;
-    @include responsive(1600px){
+    @include responsive(1750px){
       margin-left: 2.4rem;
     }
-    @include responsive(1600px){
+    @include responsive(1750px){
       margin-left: 1.4rem;
     }
     @include responsive(720px){
@@ -810,7 +813,7 @@ $color-white: #fff;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-column-gap: 15px;
-      @include responsive(1600px){
+      @include responsive(1750px){
         grid-template-columns: repeat(2,1fr);
         grid-column-gap: 35px;
         grid-row-gap: 30px;
@@ -860,7 +863,7 @@ $color-white: #fff;
       align-items: flex-start;
       background-color: white;
       box-shadow: 0px 11px 9px -7px rgba(0,0,0,0.2); 
-      @include responsive(1600px){
+      @include responsive(1750px){
         align-items: center;
         justify-content: center
       }
@@ -1005,7 +1008,7 @@ $color-white: #fff;
       display: flex;
       align-items: flex-start;
       margin-bottom: 2rem;
-      @include responsive(1600px){
+      @include responsive(1750px){
         margin-bottom: 1rem;
       }
     }
@@ -1045,7 +1048,7 @@ $color-white: #fff;
     &__iphone{
       height: 47rem;
 
-      @include responsive(1600px){
+      @include responsive(1750px){
         height: 42rem;
       }
     }

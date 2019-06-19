@@ -1,8 +1,8 @@
 <template>
     <div class="card__body">
         <v-loader v-if="isLoading"></v-loader>
-        <div class="row" v-if="!isLoading">
-            <div class="col s12 m6 l3" 
+        <div class="card__grid" v-if="!isLoading">
+            <div class="" 
                 v-for="temp in templates" 
                 :key="temp._id">
 
@@ -117,8 +117,8 @@ export default {
 
 <style lang="scss">
     .card{
-        margin-bottom: 2rem;
-        margin-right: .75rem;
+        // margin-bottom: 2rem;
+        // margin-right: .75rem;
 
         img{
             height: 14rem;
@@ -137,6 +137,20 @@ export default {
                 margin-right: .5rem;
             }
         }
+
+        &__grid{
+            display: grid;
+            grid-template-columns: repeat(4, minmax(19rem, 20rem));
+            grid-gap: 2.4rem;
+            @media (max-width:1500px) {
+                grid-template-columns: repeat(2, minmax(19rem, 20rem));                
+            }
+            @media (max-width:900px) {
+                grid-template-columns: repeat(1, minmax(19rem, 20rem));                
+            }
+        }
+        
+
     }
 </style>
 

@@ -88,8 +88,8 @@ export default {
 
     filters:{
         descFilter(value){
-            if(value.split(' ').length > 14){
-                return value.split(' ').slice(0,14).join(' ') + '...'
+            if(value.split(' ').length > 20){
+                return value.split(' ').slice(0,20).join(' ') + '...'
             } else {
                 return value
             }

@@ -6,16 +6,23 @@
                     :isEdit="isEdit"
                     :editContact="editContact"></add-contact>
 
+        <up-data :popupActive="updataActive" 
+                    @deactivePopup="updataActive = false"></up-data>
+
         <div class="contact__body">
             <h4 class="contact__title">Danh sách thông tin học viên</h4>
             <h6>Có tổng cộng là: {{ contactList.length }} khách hàng</h6><br>
-            <button class="waves-effect pink btn mr-2"
+            <button class="waves-effect pink btn mr-2 mb-2"
                     @click="popupActive = true">
                 Thêm liên lạc
             </button>
-            <a :href="`${domain}/userDash/download-pdf/${userId}`" class="waves-effect indigo btn" target="blank">
+            <a :href="`${domain}/userDash/download-pdf/${userId}`" class="waves-effect indigo btn mr-2" target="blank">
                 Trích xuất dữ liệu
             </a>
+            <button class="waves-effect red btn mr-2"
+                    @click="updataActive = true">
+                Upload dữ liệu
+            </button>
 
             <div class="contact__list">
                  <table class="centered responsive-table">
@@ -28,22 +35,21 @@
                             <th>Xóa</th>
                         </tr>
                     </thead>
-
-                    <tbody>
-                        <tr v-for="contact in contactList" :key="contact._id"
-                            class="contact__badge" @click="edit(contact._id)">
-                            <td>{{ contact.studentName }}</td>
-                            <td>{{ contact.studentEmail }}</td>
-                            <td class="contact__date">{{ contact.createdAt | dateFilter }}</td>
-                            <td>{{ contact.phone ? contact.phone : 'Không có' }}</td>
-                            <td>
-                                <button class="btn btn-small waves-effect light-effects deep-orange"
-                                        @click="deleteContact(contact._id)">
-                                    Xóa liên lạc
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
+                        <fly-out isTable>
+                                <tr v-for="contact in contactList" :key="contact._id"
+                                    class="contact__badge">
+                                    <td @click="edit(contact._id)">{{ contact.studentName }}</td>
+                                    <td>{{ contact.studentEmail }}</td>
+                                    <td class="contact__date">{{ contact.createdAt | dateFilter }}</td>
+                                    <td>{{ contact.phone ? contact.phone : 'Không có' }}</td>
+                                    <td>
+                                        <button class="btn btn-small waves-effect light-effects deep-orange"
+                                                @click="deleteContact(contact._id)">
+                                            Xóa liên lạc
+                                        </button>
+                                    </td>
+                                </tr>
+                        </fly-out>
                 </table>
             </div>
         </div>
@@ -51,11 +57,15 @@
 </template>
 
 <script>
-import addContact from '../../components/popups/addContact'
+import addContact from '../../components/popups/addContact';
+import upData from '../../components/popups/uploadCSV';
+import flyOut from '../../components/transition/flyOut'
 export default {
 
     components:{
-        addContact
+        addContact,
+        upData,
+        flyOut
     },
 
     data() {
@@ -64,7 +74,8 @@ export default {
             popupActive: false,
             isEdit: false,
             editContact: '',
-            domain: process.env.VUE_APP_PORT
+            domain: process.env.VUE_APP_PORT,
+            updataActive: false,
         }   
     },
 

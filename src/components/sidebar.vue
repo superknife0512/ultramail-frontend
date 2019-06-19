@@ -4,7 +4,7 @@
                     @deactivePopup="popupActive = false"
                     @success="successHandler($event)"></upload-img>
         <div class="sidebar__logo">
-            <router-link to="/" tag="h5" class="sidebar__brand">
+            <router-link to="#" tag="h5" class="sidebar__brand">
                 <img src="../assets/Logo.png" alt="logo" height="90">
             </router-link>
             <a href="#" class="sidebar__icon--resp" @click="activeNav" >

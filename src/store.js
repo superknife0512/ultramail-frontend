@@ -98,11 +98,11 @@ export default new Vuex.Store({
     },
 
     deleteContact(state,contactId){
-      const contacts = state.userData.studentContacts
-      const index = contacts.findIndex(contact=>{
-        contact._id === contactId
+      let contacts = state.userData.studentContacts;
+      const newContacts = contacts.filter(contact=>{
+        return contact._id !== contactId
       })
-      contacts.splice(index, 1);
+      state.userData.studentContacts = newContacts
     }
     
   },

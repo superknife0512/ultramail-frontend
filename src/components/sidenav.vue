@@ -2,7 +2,7 @@
     <div  v-if="isActive" class="side__wrapper" >    
         <left-slide>
             <nav class="side__navbar" v-on-clickaway="hide" v-if="isActiveNav">
-                <h5 class="center-align cyan-text side__brand">Postcamps logo</h5>
+                <h5 class="center-align cyan-text side__brand">Postcamps</h5>
                 <ul class="side__links">
                     
                     <router-link tag="li" 

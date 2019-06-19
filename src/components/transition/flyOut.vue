@@ -1,8 +1,23 @@
 <template>
-    <transition-group name="fly" mode="out-in" appear>
+    <transition-group name="fly" mode="out-in" :tag="theTable" appear>
         <slot></slot>
     </transition-group>
 </template>
+
+<script>
+export default {
+    props:{
+        isTable: Boolean
+    },
+
+    computed:{
+        theTable(){
+            return this.isTable ? 'tbody' : '';
+        }
+    }
+}
+</script>
+
 
 <style lang="scss">
     .fly-enter-active {
