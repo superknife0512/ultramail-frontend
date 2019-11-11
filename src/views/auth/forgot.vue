@@ -18,7 +18,7 @@
             <submit-btn :isLoading="isLoading"
                         :disableCon="disabled"
                         @onSubmit="onSubmit">
-                Kích hoạt
+                Gửi link
             </submit-btn>
         <!-- <a href="/auth/login">Đăng nhập</a> -->
         
