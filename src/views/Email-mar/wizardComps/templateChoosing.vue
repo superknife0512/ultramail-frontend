@@ -134,7 +134,7 @@ export default {
                         if(level === 'basic') return 1 ;
                         else if (level === 'standard') return 2;
                         else if (level === 'premium') return 3;
-                        else if (level === 'bussiness') return 4;
+                        else if (level === 'business') return 4;
                         else if (level === 'free') return 5;
                         return 0;
                     }
