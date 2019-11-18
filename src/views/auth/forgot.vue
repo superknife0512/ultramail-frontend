@@ -51,7 +51,7 @@ export default {
                 return resp.json()
             }).then(resData=>{
                 if(resData.status === 'fail'){
-                    this.firePopup('warning', 'Email không tồn tại', resData.msg)
+                    this.firePopup('warning', 'Gửi dữ liệu thất bại', resData.msg)
                 } else if (resData.status === 'success') {
                     this.firePopup('success', 'Thành công', resData.msg)
                 }
